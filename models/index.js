@@ -50,7 +50,7 @@ const sequelize = new Sequelize(
   }
 );
 
-User.initModel(sequelize);
+Admin.initModel(sequelize);
 
 module.exports = {
   sequelize,
