@@ -35,4 +35,7 @@ router.patch("/:id", async (req, res) => {
   return res.send("Admin modified successfully!");
 });
 
+// router.get("/", userController.index);
+
+
 module.exports = router;
