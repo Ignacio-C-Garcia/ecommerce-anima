@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
 
 const Admin = require("./Admin");
 const Product = require("./Product");
