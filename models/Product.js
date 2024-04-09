@@ -22,11 +22,11 @@ class Product extends Model {
           allowNull: false,
         },
         stock: {
-          type: DataTypes.NUMBER,
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
         price: {
-          type: DataTypes.NUMBER,
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
         featured: {
@@ -39,7 +39,7 @@ class Product extends Model {
         modelName: "product",
       }
     );
-    return User;
+    return Product;
   }
 }
 
