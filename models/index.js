@@ -36,6 +36,8 @@ class User extends Model {
   }
 }
 
+const Admin = require("./Admin");
+
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
   process.env.DB_USERNAME,
@@ -52,5 +54,5 @@ User.initModel(sequelize);
 
 module.exports = {
   sequelize,
-  User,
+  Admin,
 };
