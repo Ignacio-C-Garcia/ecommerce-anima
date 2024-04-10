@@ -13,6 +13,7 @@ async function adminSeeder() {
     };
     await Admin.create(newAdmin);
   }
+  console.log("Admins seeder has been ran");
 }
 
 module.exports = adminSeeder;
