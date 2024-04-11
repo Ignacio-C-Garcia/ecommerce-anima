@@ -4,6 +4,7 @@ const Admin = require("./Admin");
 const Product = require("./Product");
 const Order = require("./Order");
 const User = require("./User");
+const Category = require("./Category");
 
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
@@ -21,10 +22,12 @@ Admin.initModel(sequelize);
 Product.initModel(sequelize);
 Order.initModel(sequelize);
 User.initModel(sequelize);
+Category.initModel(sequelize);
 module.exports = {
   sequelize,
   Admin,
   Product,
   Order,
   User,
+  Category,
 };
