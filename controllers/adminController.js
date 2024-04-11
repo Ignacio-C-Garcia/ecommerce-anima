@@ -30,7 +30,14 @@ const adminController = {
 
     return res.send("Admin modified successfully!");
   },
-  destroy: async (req, res) => {},
+  destroy: async (req, res) => {
+    const { id } = req.params;
+    await Admin.destroy({
+      where: {
+        id,
+      },
+    });
+  },
   // TODO: Write the destroy method
 };
 
