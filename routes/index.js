@@ -9,7 +9,7 @@ const categoryRoutes = require("./categoryRoutes");
 router.use("/admins", adminRoutes);
 router.use("/orders", orderRoutes);
 router.use("/users", userRoutes);
-router.use("/routes", productRoutes);
+router.use("/products", productRoutes);
 router.use("/categories", categoryRoutes);
 
 module.exports = router;
