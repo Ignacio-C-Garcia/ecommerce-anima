@@ -20,3 +20,4 @@ async function adminSeeder() {
 }
 
 module.exports = adminSeeder;
+  
