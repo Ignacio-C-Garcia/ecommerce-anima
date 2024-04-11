@@ -37,8 +37,8 @@ const adminController = {
         id,
       },
     });
+    return res.send("The admin has been deleted successfully!");
   },
-  // TODO: Write the destroy method
 };
 
 module.exports = adminController;
