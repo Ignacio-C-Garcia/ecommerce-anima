@@ -17,7 +17,7 @@ class Product extends Model {
           type: DataTypes.TEXT,
           allowNull: false,
         },
-        photo: {
+        pic: {
           type: DataTypes.STRING,
           allowNull: false,
         },
