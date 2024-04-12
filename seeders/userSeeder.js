@@ -6,10 +6,15 @@ async function userSeeder() {
   for (let i = 0; i < 20; i++) {
     const name = faker.person.firstName();
     const surname = faker.person.lastName();
+    const email = faker.internet.email({ firstName: name, lastName: surname });
+    const address = faker.location.streetAddress();
+    const phone = faker.phone.number();
     const newUser = {
-      surname,
       name,
-      email: faker.internet.email({ firstName: name, lastName: surname }),
+      surname,
+      email,
+      address,
+      phone,
       password: "1234",
     };
 
