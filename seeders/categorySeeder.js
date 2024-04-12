@@ -5,3 +5,6 @@ module.exports = async function categorySeeder() {
 
   await Category.bulkCreate(categoriesList);
 };
+
+
+
