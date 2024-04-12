@@ -11,9 +11,13 @@ const adminController = {
     return res.json(admin);
   },
   store: async (req, res) => {
+    const admin = await Admin.findByPk(id);
+    if (admin.isAdmin) {
+      return res.send("The main admin cannot be deleted.");
+    }
     const { surname, name, email, password } = req.body;
     await Admin.create({ surname, name, email, password });
-    return res.send("Register added successfully!");
+    return res.send("New admin has been added successfully.");
   },
   update: async (req, res) => {
     const { id } = req.params;
@@ -28,16 +32,20 @@ const adminController = {
 
     await admin.save();
 
-    return res.send("Admin modified successfully!");
+    return res.send("Admin modified successfully.");
   },
   destroy: async (req, res) => {
     const { id } = req.params;
-    await Admin.destroy({
-      where: {
-        id,
-      },
-    });
-    return res.send("The admin has been deleted successfully!");
+    try {
+      const admin = await Admin.findByPk(id);
+      if (admin.isAdmin) {
+        return res.status(403).send("You cannot delete the admin user.");
+      }
+      admin.destroy();
+      return res.send("The admin has been deleted successfully!");
+    } catch (err) {
+      return res.send(err);
+    }
   },
 };
 
