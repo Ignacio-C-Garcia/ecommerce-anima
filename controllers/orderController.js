@@ -1,18 +1,18 @@
 const { Order } = require("../models");
 
 const orderController = {
-  index: async (req, res) => {
+  store: async (req, res) => {
     const { productList, status } = req.body;
     await Order.create({ productList, status });
     return res.send("Register added successfully!");
   },
 
-  show: async (req, res) => {
+  index: async (req, res) => {
     const orders = await Order.findAll();
     return res.json(orders);
   },
 
-  store: async (req, res) => {
+  show: async (req, res) => {
     const { id } = req.params;
     const order = await Order.findByPk(id);
     return res.json(order);
@@ -31,7 +31,12 @@ const orderController = {
 
     return res.send("Admin modified successfully!");
   },
-  destroy: async (req, res) => {},
+  destroy: async (req, res) => {
+    const { id } = req.params;
+    const order = await Order.findByPk(id);
+    order.destroy();
+    res.send("Orden existosamente eliminada")
+  },
   // TODO: Write the destroy method
 };
 module.exports = orderController;

@@ -34,4 +34,4 @@ class Admin extends Model {
     return Admin;
   }
 }
-module.exports = Admin;
+module.exports = Admin; 

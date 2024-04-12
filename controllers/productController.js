@@ -34,8 +34,12 @@ const productController = {
   },
   destroy: async (req, res) => {
     const { id } = req.params;
-    await User.findByPk(id).destroy();
-    return res.send("Producto eliminado con éxito!");
+    try {
+      await User.findByPk(id).destroy();
+      return res.send("Producto eliminado con éxito!");
+    } catch {
+      res.send("No se ha podido eliminar el producto");
+    }
   },
 };
 
