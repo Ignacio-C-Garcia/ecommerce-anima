@@ -21,7 +21,7 @@ async function userSeeder() {
     users.push(newUser);
   }
   await User.bulkCreate(users);
-  console.log("New users has been created by seeder.");
+  console.log("User seeder has been ran.");
 }
 
 module.exports = userSeeder;
