@@ -8,20 +8,20 @@ async function userSeeder() {
     const surname = faker.person.lastName();
     const email = faker.internet.email({ firstName: name, lastName: surname });
     const address = faker.location.streetAddress();
-    const phone = faker.phone.number();
+    const phoneNumber = faker.phone.number();
     const newUser = {
       name,
       surname,
       email,
       address,
-      phone,
+      phoneNumber,
       password: "1234",
     };
 
     users.push(newUser);
   }
-  await User.blukCreate(users);
-  console.log("User seeder has been ran");
+  await User.bulkCreate(users);
+  console.log("New users has been created by seeder.");
 }
 
 module.exports = userSeeder;

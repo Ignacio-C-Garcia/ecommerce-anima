@@ -82,4 +82,5 @@ module.exports = async () => {
   ];
 
   await Product.bulkCreate(productList);
+  console.log("New products has been created.");
 };

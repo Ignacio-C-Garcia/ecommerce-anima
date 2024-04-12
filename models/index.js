@@ -30,7 +30,6 @@ Product.belongsTo(Category);
 Order.hasOne(User);
 User.hasMany(Order);
 
-
 module.exports = {
   sequelize,
   Admin,
