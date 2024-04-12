@@ -30,8 +30,6 @@ Product.belongsTo(Category);
 Order.hasOne(User);
 User.hasMany(Order);
 
-Product.belongsToMany(Order, { through: "ProductOrder" });
-Order.belongsToMany(Product, { through: "ProductOrder" });
 
 module.exports = {
   sequelize,
