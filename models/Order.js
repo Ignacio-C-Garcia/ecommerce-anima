@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require ("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
 class Order extends Model {
   static initModel(sequelize) {
@@ -9,12 +9,17 @@ class Order extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        productList: {
+        products: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        address: {
           type: DataTypes.STRING,
           allowNull: false,
         },
         status: {
           type: DataTypes.STRING,
+          values: ["pending", "rejected", "processing", "shipped", "delivered"],
           allowNull: false,
         },
       },

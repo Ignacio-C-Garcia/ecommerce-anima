@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "BMW",
+      "qty": 3
+    },
+    {
+      "id": 2,
+      "name": "gt",
+      "qty": 4
+    }
+  ],
+  "userId": 1,
+  "addres": "canelones"
+}
