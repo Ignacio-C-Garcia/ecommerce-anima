@@ -8,13 +8,13 @@ async function userSeeder() {
     const surname = faker.person.lastName();
     const email = faker.internet.email({ firstName: name, lastName: surname });
     const address = faker.location.streetAddress();
-    const phoneNumber = faker.phone.number();
+    const phone = faker.phone.number();
     const newUser = {
       name,
       surname,
       email,
       address,
-      phoneNumber,
+      phone,
       password: "1234",
     };
 
