@@ -11,13 +11,13 @@ const userController = {
     return res.json(user);
   },
   store: async (req, res) => {
-    const { surname, name, email, password } = req.body;
-    await User.create({ surname, name, email, password });
+    const { name, surname, email, address, phone, password } = req.body;
+    await User.create({ name, surname, email, address, phone, password });
     return res.send("New user has been added successfully.");
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { surname, name, email, password } = req.body;
+    const { name, surname, email, address, phone, password } = req.body;
 
     const user = await User.findByPk(id);
 
@@ -30,16 +30,19 @@ const userController = {
 
     await user.save();
 
-    return res.send("User modified successfully.");
+    return res.send("User has been modified successfully.");
   },
   destroy: async (req, res) => {
     const { id } = req.params;
     try {
       const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(404).send("User not found.");
+      }
       user.destroy();
       return res.send("The user has been deleted successfully.");
     } catch (err) {
-      return res.send(err.message || "The user doesn't exist.");
+      return res.send(err);
     }
   },
 };

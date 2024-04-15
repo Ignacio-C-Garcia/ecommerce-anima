@@ -11,10 +11,6 @@ const adminController = {
     return res.json(admin);
   },
   store: async (req, res) => {
-    const admin = await Admin.findByPk(id);
-    if (admin.isAdmin) {
-      return res.send("The main admin cannot be deleted.");
-    }
     const { surname, name, email, password } = req.body;
     await Admin.create({ surname, name, email, password });
     return res.send("New admin has been added successfully.");
@@ -38,8 +34,11 @@ const adminController = {
     const { id } = req.params;
     try {
       const admin = await Admin.findByPk(id);
-      if (admin.isAdmin) {
-        return res.status(403).send("You cannot delete the admin user.");
+      if (!admin) {
+        return res.status(404).send("Admin not found.");
+      }
+      if (admin.id === 1) {
+        return res.status(403).send("You cannot delete the admin with ID 1.");
       }
       admin.destroy();
       return res.send("The admin has been deleted successfully!");
