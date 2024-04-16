@@ -14,9 +14,9 @@ const orderController = {
 
   store: async (req, res) => {
     try {
-    const order = req.body;
-    if (!order.addres) return res.json({ message: "Ups! algo salió mal" });
-    if (!order.userId) return res.json({ message: "Ups! algo salió mal" });
+      const order = req.body;
+      if (!order.addres) return res.json({ message: "Ups! algo salió mal" });
+      if (!order.userId) return res.json({ message: "Ups! algo salió mal" });
 
       //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.
       for (const product of order.products) {
@@ -34,7 +34,7 @@ const orderController = {
       for (const product of order.products) {
         const productsInDb = await Product.findByPk(product.id);
 
-        productsInDb.stock -= productsInDb.stock - product.qty;
+        productsInDb.stock = productsInDb.stock - product.qty;
 
         await productsInDb.save();
       }
