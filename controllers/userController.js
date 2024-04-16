@@ -11,25 +11,35 @@ const userController = {
     return res.json(user);
   },
   store: async (req, res) => {
-    const { name, surname, email, address, phone, password } = req.body;
-    await User.create({ name, surname, email, address, phone, password });
+    const user = req.body;
+    if (
+      !user.name ||
+      !user.surname ||
+      !user.email ||
+      !user.address ||
+      !user.phone ||
+      !user.password
+    ) {
+      return res.status(400).send("All fields are required for user creation.");
+    }
+    await User.create(user);
     return res.send("New user has been added successfully.");
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, surname, email, address, phone, password } = req.body;
+    const userInfo = req.body;
 
     const user = await User.findByPk(id);
 
-    if (name) user.name = name;
-    if (surname) user.surname = surname;
-    if (email) user.email = email;
-    if (address) user.address = address;
-    if (phone) user.phone = phone;
-    if (password) user.password = password;
+    if (!user) res.status(404).send("Admin not found.");
+    if (userInfo.name) user.name = userInfo.name;
+    if (userInfo.surname) user.surname = userInfo.surname;
+    if (userInfo.email) user.email = userInfo.email;
+    if (userInfo.address) user.address = userInfo.address;
+    if (userInfo.phone) user.phone = userInfo.phone;
+    if (userInfo.password) user.password = userInfo.password;
 
     await user.save();
-
     return res.send("User has been modified successfully.");
   },
   destroy: async (req, res) => {
