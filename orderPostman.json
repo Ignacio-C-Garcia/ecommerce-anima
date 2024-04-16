@@ -1,0 +1,16 @@
+{
+  "productsList": [
+    {
+      "id": 1,
+      "name": "xf",
+      "qty": 3
+    },
+    {
+      "id": 1,
+      "name": "xf",
+      "qty": 3
+    }
+  ],
+  "userId": 1,
+  "address": "Canelones 1234"
+}
