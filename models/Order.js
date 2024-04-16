@@ -10,7 +10,7 @@ class Order extends Model {
           autoIncrement: true,
         },
         products: {
-          type: DataTypes.STRING,
+          type: DataTypes.JSON,
           allowNull: false,
         },
         address: {
