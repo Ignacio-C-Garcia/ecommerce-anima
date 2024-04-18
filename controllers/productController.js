@@ -11,19 +11,19 @@ const productController = {
     return res.json(product);
   },
   store: async (req, res) => {
-    const { name, description, photo, stock, price, featured } = req.body;
-    await Product.create({ name, description, photo, stock, price, featured });
+    const { name, description, pic, stock, price, featured } = req.body;
+    await Product.create({ name, description, pic, stock, price, featured });
     return res.send("El producto fue creado con éxito!");
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, description, photo, stock, price, featured } = req.body;
+    const { name, description, pic, stock, price, featured } = req.body;
 
     const product = await Product.findByPk(id);
 
     if (name) product.name = name;
     if (description) product.description = description;
-    if (photo) product.photo = photo;
+    if (pic) product.photo = photo;
     if (stock) product.stock = stock;
     if (price) product.price = price;
     if (featured) product.featured = featured;
