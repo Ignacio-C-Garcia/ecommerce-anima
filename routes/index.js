@@ -10,12 +10,12 @@ const categoryRoutes = require("./categoryRoutes");
 
 router.use(
   "/admins",
-  checkJwt({ secret: process.env.TOKEN_WORD, algorithms: ["HS256"] }),
+  checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
   adminRoutes
 );
 router.use(
   "/users",
-  checkJwt({ secret: process.env.TOKEN_WORD, algorithms: ["HS256"] }),
+  checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
   userRoutes
 );
 router.use("/orders", orderRoutes);
