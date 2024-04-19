@@ -7,27 +7,47 @@ const adminController = {
   },
   show: async (req, res) => {
     const { id } = req.params;
-    const admin = await Admin.findByPk(id);
-    return res.json(admin);
+    try {
+      const admin = await Admin.findByPk(id);
+      return !admin
+        ? res.status(404).send("Admin not found.")
+        : res.json(admin);
+    } catch (err) {
+      return res.send(err);
+    }
   },
   store: async (req, res) => {
-    const { surname, name, email, password } = req.body;
-    await Admin.create({ surname, name, email, password });
-    return res.send("New admin has been added successfully.");
+    const admin = req.body;
+    try {
+      if (!admin.name || !admin.surname || !admin.email || !admin.password) {
+        return res
+          .status(400)
+          .send("All fields are required for admin creation.");
+      }
+      await Admin.create({
+        name: admin.name,
+        surname: admin.surname,
+        email: admin.email,
+        password: admin.password,
+      });
+      return res.send("New admin has been added successfully.");
+    } catch (err) {
+      return res.send(err);
+    }
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { surname, name, email, password } = req.body;
+    const adminInfo = req.body;
 
     const admin = await Admin.findByPk(id);
 
-    if (name) admin.name = name;
-    if (surname) admin.surname = surname;
-    if (email) admin.email = email;
-    if (password) admin.password = password;
+    if (!admin) res.status(404).send("Admin not found.");
+    if (adminInfo.name) admin.name = adminInfo.name;
+    if (adminInfo.surname) admin.surname = adminInfo.surname;
+    if (adminInfo.email) admin.email = adminInfo.email;
+    if (adminInfo.password) admin.password = adminInfo.password;
 
     await admin.save();
-
     return res.send("Admin modified successfully.");
   },
   destroy: async (req, res) => {

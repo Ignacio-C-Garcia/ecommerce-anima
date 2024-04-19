@@ -2,20 +2,33 @@ const { Order, Product } = require("../models");
 
 const orderController = {
   index: async (req, res) => {
-    const orders = await Order.findAll();
-    return res.json(orders);
+    try {
+      const orders = await Order.findAll();
+      if (!orders || orders.length === 0)
+        res.send({ status: 404, message: "No orders found" });
+      else res.json(orders);
+    } catch (error) {
+      res.send(error);
+    }
   },
 
   show: async (req, res) => {
-    const { id } = req.params;
-    const order = await Order.findByPk(id);
-    return res.json(order);
+    try {
+      const { id } = req.params;
+      const order = await Order.findByPk(id);
+      !order
+        ? res.send({ status: 404, message: "No orders found" })
+        : res.json(order);
+    } catch (err) {
+      console.log(err);
+      return res.json({ message: "Ups! algo salió mal" });
+    }
   },
 
   store: async (req, res) => {
     try {
       const order = req.body;
-      if (!order.addres) return res.json({ message: "Ups! algo salió mal" });
+      if (!order.address) return res.json({ message: "Ups! algo salió mal" });
       if (!order.userId) return res.json({ message: "Ups! algo salió mal" });
 
       //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.
@@ -48,18 +61,23 @@ const orderController = {
   },
 
   update: async (req, res) => {
-    const { id } = req.params;
-    const { products, status, addres } = req.body;
+    try {
+      const { id } = req.params;
+      const { products, status, addres } = req.body;
 
-    const order = await order.findByPk(id);
+      const order = await order.findByPk(id);
 
-    if (status) order.status = status;
-    if (products) order.products = products;
-    if (addres) order.addres = addres;
+      if (status) order.status = status;
+      if (products) order.products = products;
+      if (addres) order.addres = addres;
 
-    await order.save();
+      await order.save();
 
-    return res.send("order modified successfully!");
+      return res.send("order modified successfully!");
+    } catch (err) {
+      console.log(err);
+      return res.json({ message: "Ups! algo salió mal" });
+    }
   },
 
   destroy: async (req, res) => {
