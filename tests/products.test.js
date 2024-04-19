@@ -53,3 +53,19 @@ describe("#GET /products/:id", () => {
     expect(await Product.findByPk(1)).not.toBeNull();
   });
 });
+
+describe("#PATCH /products/:id", () => {
+  it("Should update and return modified Product", async () => {
+    await Product.sync({ force: true });
+    await Product.create(product1);
+    const newData = {
+      
+    }
+    const response = await request(app).Patch(`/products/${1}`).send();
+    expect(response.statusCode).toBe(200);
+    expect(response.type).toBe("application/json");
+    expect(response.body.message).toEqual("Product updated");
+    expect(response.body.product.id).toEqual(1);
+    expect(await Product.findByPk(1)).not.toBeNull();
+  });
+});
