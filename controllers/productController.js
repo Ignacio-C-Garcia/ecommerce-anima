@@ -8,12 +8,11 @@ const productController = {
   show: async (req, res) => {
     const { id } = req.params;
     const product = await Product.findByPk(id);
-    return res.json(product);
+    return res.json({ message: "Product found", product });
   },
   store: async (req, res) => {
-    const { name, description, pic, stock, price, featured } = req.body;
-    await Product.create({ name, description, pic, stock, price, featured });
-    return res.send("El producto fue creado con éxito!");
+    const product = await Product.create(req.body);
+    return res.json({ message: "Product created successfully", product });
   },
   update: async (req, res) => {
     const { id } = req.params;
