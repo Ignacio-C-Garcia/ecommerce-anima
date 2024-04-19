@@ -5,6 +5,7 @@ const adminController = {
     const admins = await Admin.findAll();
     return res.json(admins);
   },
+  
   show: async (req, res) => {
     const { id } = req.params;
     try {

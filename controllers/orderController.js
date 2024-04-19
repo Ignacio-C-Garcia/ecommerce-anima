@@ -31,7 +31,7 @@ const orderController = {
       if (!order.address) return res.json({ message: "Ups! algo salió mal" });
       if (!order.userId) return res.json({ message: "Ups! algo salió mal" });
 
-      //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.
+      //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.r
       for (const product of order.products) {
         const productsInDb = await Product.findByPk(product.id);
         if (productsInDb.stock < product.qty) {
@@ -83,11 +83,11 @@ const orderController = {
   destroy: async (req, res) => {
     const { id } = req.params;
     try {
-      const user = await User.findByPk(id);
-      user.destroy();
-      return res.send("The user has been deleted successfully.");
+      const order = await Order.findByPk(id);
+      order.destroy();
+      return res.send("The order has been deleted successfully.");
     } catch (err) {
-      return res.send(err.message || "The user doesn't exist.");
+      return res.send(err.message || "The order doesn't exist.");
     }
   },
 };

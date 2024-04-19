@@ -8,6 +8,8 @@ const authController = {
       const admin = await Admin.findOne({ where: { email } });
       let token;
 
+      
+
       if (admin && admin.password === password) {
         token = jwt.sign(
           { sub: admin.id, role: "Admin" },
