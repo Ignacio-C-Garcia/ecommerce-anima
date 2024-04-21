@@ -1,4 +1,5 @@
 const { Product } = require("../models");
+const errorFormatter = require("../utils/errorFormatter");
 
 const productController = {
   index: async (req, res) => {
@@ -16,20 +17,30 @@ const productController = {
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const { name, description, pic, stock, price, featured } = req.body;
+    const { name, description, pic, stock, price, featured, categoryId } =
+      req.body;
 
     const product = await Product.findByPk(id);
+    if (!product) return res.json({ message: "Product is not available" });
+    try {
+      await product.update({
+        name,
+        description,
+        pic,
+        stock,
+        price,
+        featured,
+        categoryId,
+      });
 
-    if (name) product.name = name;
-    if (description) product.description = description;
-    if (pic) product.photo = photo;
-    if (stock) product.stock = stock;
-    if (price) product.price = price;
-    if (featured) product.featured = featured;
-
-    await product.save();
-
-    return res.send("Producto modificado con éxito!");
+      return res.json({ message: "Product updated", product });
+    } catch (error) {
+      return res.json({
+        message: "Product not updated",
+        product,
+        errors: errorFormatter(error),
+      });
+    }
   },
   destroy: async (req, res) => {
     const { id } = req.params;
