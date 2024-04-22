@@ -3,6 +3,7 @@ const { User } = require("../models");
 const userController = {
   index: async (req, res) => {
     const users = await User.findAll();
+
     return res.json(users);
   },
   show: async (req, res) => {
@@ -28,6 +29,13 @@ const userController = {
   update: async (req, res) => {
     const { id } = req.params;
     const userInfo = req.body;
+    const loggedInUserId = req.auth.sub;
+
+    if (id !== loggedInUserId) {
+      return res
+        .status(403)
+        .send("No tienes permiso para modificar este usuario.");
+    }
 
     const user = await User.findByPk(id);
 

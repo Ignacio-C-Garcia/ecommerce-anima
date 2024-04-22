@@ -8,14 +8,19 @@ const orderRoutes = require("./orderRoutes");
 const productRoutes = require("./productRoutes");
 const categoryRoutes = require("./categoryRoutes");
 
+const isAdmin = require("../middlewares/isAdmin");
+const loggedInUserId = require("../middlewares/users");
+
 router.use(
   "/admins",
   checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
+  isAdmin,
   adminRoutes
 );
 router.use(
   "/users",
   checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
+  loggedInUserId,
   userRoutes
 );
 router.use("/orders", orderRoutes);
