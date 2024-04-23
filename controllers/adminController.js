@@ -20,8 +20,8 @@ const adminController = {
   },
   store: async (req, res) => {
     const admin = req.body;
-    const hashedPassword = await bcrypt.hash(unhashedPassword, 8);
-    const match = await bcrypt.compare(unhashedPassword, hashedPassword);
+    const hashedPassword = await bcrypt.hash(admin.password, 8);
+    const match = await bcrypt.compare(admin.password, hashedPassword);
 
     try {
       if (!admin.name || !admin.surname || !admin.email || !hashedPassword) {
@@ -42,11 +42,10 @@ const adminController = {
   },
   update: async (req, res) => {
     const { id } = req.params;
-    const hashedPassword = await bcrypt.hash(unhashedPassword, 8);
-    const match = await bcrypt.compare(unhashedPassword, hashedPassword);
-    const adminInfo = req.body;
-
     const admin = await Admin.findByPk(id);
+    const hashedPassword = await bcrypt.hash(admin.password, 8);
+    // const match = await bcrypt.compare(unhashedPassword, hashedPassword);
+    const adminInfo = req.body;
 
     if (!admin) res.status(404).send("Admin not found.");
     if (adminInfo.name) admin.name = adminInfo.name;
