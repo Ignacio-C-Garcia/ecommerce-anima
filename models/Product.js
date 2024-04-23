@@ -13,42 +13,72 @@ class Product extends Model {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
-            notEmpty: { msg: "name field can't be empty" },
-        //    isAlpha: { msg: "name must be valid" },
+            notNull: {
+              msg: "name cannot be null",
+            },
+            notEmpty: { msg: "name cannot be empty" },
           },
         },
         description: {
           type: DataTypes.TEXT,
           allowNull: false,
           validate: {
-            notEmpty: { msg: "description field can't be empty" },
+            notNull: {
+              msg: "description cannot be null",
+            },
+            notEmpty: { msg: "description cannot be empty" },
           },
         },
         pic: {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
-            notEmpty: { msg: "pic field can't be empty" },
+            notNull: {
+              msg: "pic cannot be null",
+            },
+            notEmpty: { msg: "pic cannot be empty" },
           },
         },
         stock: {
           type: DataTypes.INTEGER,
           allowNull: false,
           validate: {
-            min: 0,
+            notNull: {
+              msg: "stock cannot be null",
+            },
+            isNumeric: { msg: "stock must be a positive number" },
+            min: {
+              args: [0],
+              msg: "stock must be a positive number",
+            },
           },
         },
         price: {
           type: DataTypes.INTEGER,
           allowNull: false,
           validate: {
-            min: 0,
+            notNull: {
+              msg: "price cannot be null",
+            },
+            isNumeric: { msg: "price must be a positive number" },
+            min: {
+              args: [0],
+              msg: "price must be a positive number",
+            },
           },
         },
         featured: {
           type: DataTypes.BOOLEAN,
           allowNull: false,
-          values: [true, false],
+          validate: {
+            notNull: {
+              msg: "featured cannot be null",
+            },
+            isIn: {
+              args: [[true, false, 1, 0]],
+              msg: "featured must be true or false",
+            },
+          },
         },
       },
       {

@@ -7,8 +7,8 @@ function errorFormatter({
   if (sequelizeError) {
     for (const error of sequelizeError) {
       listOfErrors.push(error.message);
-      return listOfErrors;
     }
+    return listOfErrors;
   }
 
   if (sqlError) {
