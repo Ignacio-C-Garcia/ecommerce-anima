@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const bcrypt = require("bcryptjs");
 
 const userController = {
   index: async (req, res) => {
@@ -23,6 +24,8 @@ const userController = {
     ) {
       return res.status(400).send("All fields are required for user creation.");
     }
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
     await User.create(user);
     return res.send("New user has been added successfully.");
   },
@@ -45,7 +48,10 @@ const userController = {
     if (userInfo.email) user.email = userInfo.email;
     if (userInfo.address) user.address = userInfo.address;
     if (userInfo.phone) user.phone = userInfo.phone;
-    if (userInfo.password) user.password = userInfo.password;
+    if (userInfo.password) {
+      const hashedPassword = await bcrypt.hash(userInfo.password, 10);
+      user.password = hashedPassword;
+    }
 
     await user.save();
     return res.send("User has been modified successfully.");

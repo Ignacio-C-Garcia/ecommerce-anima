@@ -1,5 +1,6 @@
 const { faker } = require("@faker-js/faker");
 const { User } = require("../models");
+const bcrypt = require("bcryptjs");
 
 async function userSeeder() {
   const users = [];
@@ -9,13 +10,14 @@ async function userSeeder() {
     const email = faker.internet.email({ firstName: name, lastName: surname });
     const address = faker.location.streetAddress();
     const phone = faker.phone.number();
+    const hashedPassword = await bcrypt.hash("1234", 10);
     const newUser = {
       name,
       surname,
       email,
       address,
       phone,
-      password: "1234",
+      password: hashedPassword,
     };
 
     users.push(newUser);
