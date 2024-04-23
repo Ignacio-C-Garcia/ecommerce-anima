@@ -1,11 +1,12 @@
 const { Admin } = require("../models");
+const bcrypt = require("bcryptjs");
 
 const adminController = {
   index: async (req, res) => {
     const admins = await Admin.findAll();
     return res.json(admins);
   },
-  
+
   show: async (req, res) => {
     const { id } = req.params;
     try {
@@ -19,8 +20,11 @@ const adminController = {
   },
   store: async (req, res) => {
     const admin = req.body;
+    const hashedPassword = await bcrypt.hash(unhashedPassword, 8);
+    const match = await bcrypt.compare(unhashedPassword, hashedPassword);
+
     try {
-      if (!admin.name || !admin.surname || !admin.email || !admin.password) {
+      if (!admin.name || !admin.surname || !admin.email || !hashedPassword) {
         return res
           .status(400)
           .send("All fields are required for admin creation.");
@@ -29,7 +33,7 @@ const adminController = {
         name: admin.name,
         surname: admin.surname,
         email: admin.email,
-        password: admin.password,
+        password: hashedPassword,
       });
       return res.send("New admin has been added successfully.");
     } catch (err) {
@@ -38,6 +42,8 @@ const adminController = {
   },
   update: async (req, res) => {
     const { id } = req.params;
+    const hashedPassword = await bcrypt.hash(unhashedPassword, 8);
+    const match = await bcrypt.compare(unhashedPassword, hashedPassword);
     const adminInfo = req.body;
 
     const admin = await Admin.findByPk(id);
@@ -46,7 +52,7 @@ const adminController = {
     if (adminInfo.name) admin.name = adminInfo.name;
     if (adminInfo.surname) admin.surname = adminInfo.surname;
     if (adminInfo.email) admin.email = adminInfo.email;
-    if (adminInfo.password) admin.password = adminInfo.password;
+    if (adminInfo.password) hashedPassword = adminInfo.password;
 
     await admin.save();
     return res.send("Admin modified successfully.");
