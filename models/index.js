@@ -1,5 +1,4 @@
 const { Sequelize } = require("sequelize");
-
 const Admin = require("./Admin");
 const Product = require("./Product");
 const Order = require("./Order");
@@ -14,6 +13,9 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: process.env.DB_CONNECTION,
+    define: {
+      timestamps: false,
+    },
     logging: false,
   }
 );

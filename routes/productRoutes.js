@@ -1,11 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
+const isAdmin = require("../middlewares/isAdmin");
+const { expressjwt: checkJwt } = require("express-jwt");
 
 router.get("/", productController.index);
 router.get("/:id", productController.show);
-router.post("/", productController.store);
-router.patch("/:id", productController.update);
-router.delete("/:id", productController.destroy);
+router.post(
+  "/",
+  checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
+  isAdmin,
+  productController.store
+);
+router.patch(
+  "/:id",
+  checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
+  isAdmin,
+  productController.update
+);
+router.delete(
+  "/:id",
+  checkJwt({ secret: process.env.TOKEN_SECRET, algorithms: ["HS256"] }),
+  isAdmin,
+  productController.destroy
+);
 
 module.exports = router;
