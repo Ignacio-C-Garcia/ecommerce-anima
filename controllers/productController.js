@@ -10,7 +10,7 @@ const productController = {
     const { id } = req.params;
     const product = await Product.findByPk(id);
     if (!product)
-      return res.json({
+      return res.status(404).json({
         product,
         errors: ["Product not available"],
       });
@@ -19,19 +19,26 @@ const productController = {
   store: async (req, res) => {
     try {
       const product = await Product.create(req.body);
-      return res.json({ product });
+      return res.status(201).json({ product });
     } catch (error) {
-      return res.json({ product: null, errors: errorFormatter(error) });
+      return res
+        .status(400)
+        .json({ product: null, errors: errorFormatter(error) });
     }
   },
   update: async (req, res) => {
     const { id } = req.params;
+
+    const product = await Product.findByPk(id);
+    if (!product)
+      return res
+        .status(404)
+        .json({ product, errors: ["Product is not available"] });
+
     const { name, description, pic, stock, price, featured, categoryId } =
       req.body;
-    try {
-      const product = await Product.findByPk(id);
-      if (!product) throw { message: "Product is not available" };
 
+    try {
       await product.update({
         name,
         description,
@@ -44,7 +51,7 @@ const productController = {
 
       return res.json({ product });
     } catch (error) {
-      return res.json({
+      return res.status(400).json({
         product: null,
         errors: errorFormatter(error),
       });
@@ -55,9 +62,9 @@ const productController = {
     try {
       const product = await Product.findByPk(id);
       product.destroy();
-      return res.send({ product, message: "Product deleted" });
+      return res.json({ product, message: "Product deleted" });
     } catch (error) {
-      res.json({ product: null, errors: errorFormatter(error) });
+      res.status(404).json({ product: null, errors: errorFormatter(error) });
     }
   },
 };
