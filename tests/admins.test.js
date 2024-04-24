@@ -45,7 +45,7 @@ beforeAll(async () => {
 });
 
 describe("#GET /admins/", () => {
-  it.only("should return an error (not authorized)", async () => {
+  it("should return an error (not authorized)", async () => {
     const response = await request(app)
       .get("/admins/")
       .auth(authUser, { type: "bearer" })
@@ -65,7 +65,7 @@ describe("#GET /admins/", () => {
     expect(errors).toContain("Access denied. Only admins authorized.");
   });
 
-  it.only("should return an error (missing token)", async () => {
+  it("should return an error (missing token)", async () => {
     const response = await request(app).get("/admins/").send();
 
     const {
@@ -82,7 +82,7 @@ describe("#GET /admins/", () => {
     expect(errors).toContain("Cannot authenticate API key");
   });
 
-  it.only("should not return an empty array", async () => {
+  it("should not return an empty array", async () => {
     const response = await request(app)
       .get("/admins/")
       .auth(authAdmin, { type: "bearer" })
@@ -101,7 +101,7 @@ describe("#GET /admins/", () => {
     expect(errors).toBeUndefined();
   });
 
-  it.only("should return a list with root and admin2", async () => {
+  it("should return a list with root and admin2", async () => {
     await Admin.create(admin2);
 
     const response = await request(app)
@@ -122,7 +122,7 @@ describe("#GET /admins/", () => {
     expect(errors).toBeUndefined();
   });
 
-  it.only("should return a list with two admins and root", async () => {
+  it("should return a list with two admins and root", async () => {
     await Admin.create(admin2);
 
     const response = await request(app)
@@ -143,7 +143,7 @@ describe("#GET /admins/", () => {
     expect(errors).toBeUndefined();
   });
 
-  it.only("should return a list with three admins and root", async () => {
+  it("should return a list with three admins and root", async () => {
     await Admin.create(admin3);
 
     const response = await request(app)
@@ -166,7 +166,7 @@ describe("#GET /admins/", () => {
 });
 
 describe("#GET /admins/:id", () => {
-  it.only("should return a Admin (id=1)", async () => {
+  it("should return a Admin (id=1)", async () => {
     const response = await request(app)
       .get(`/admins/${1}`)
       .auth(authAdmin, { type: "bearer" })
@@ -185,7 +185,7 @@ describe("#GET /admins/:id", () => {
     expect(errors).toBeUndefined();
   });
 
-  it.only("should return a Admin (id=2)", async () => {
+  it("should return a Admin (id=2)", async () => {
     const response = await request(app)
       .get(`/admins/${2}`)
       .auth(authAdmin, { type: "bearer" })
