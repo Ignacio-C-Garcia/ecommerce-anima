@@ -51,7 +51,7 @@ const adminController = {
     if (adminInfo.name) admin.name = adminInfo.name;
     if (adminInfo.surname) admin.surname = adminInfo.surname;
     if (adminInfo.email) admin.email = adminInfo.email;
-    if (adminInfo.password) hashedPassword = adminInfo.password;
+    if (adminInfo.password) admin.password = hashedPassword;
 
     await admin.save();
     return res.json(admin);

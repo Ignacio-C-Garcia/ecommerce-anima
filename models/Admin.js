@@ -41,32 +41,6 @@ class Admin extends Model {
         },
         password: {
           type: DataTypes.STRING(),
-          validate: {
-            isStrongPassword(value) {
-              // Comprueba si la contraseña tiene al menos 8 caracteres,
-              // al menos un símbolo, una letra mayúscula y un número.
-              if (!/(?=.*[!@#$%^&*()?¿¡!])/.test(value)) {
-                throw new Error(
-                  "La contraseña debe contener al menos un símbolo (!@#$%^&*()?¿¡!)"
-                );
-              }
-              if (!/(?=.*[A-Z])/.test(value)) {
-                throw new Error(
-                  "La contraseña debe contener al menos una letra mayúscula"
-                );
-              }
-              if (!/(?=.*[0-9])/.test(value)) {
-                throw new Error(
-                  "La contraseña debe contener al menos un número"
-                );
-              }
-              if (value.length < 8) {
-                throw new Error(
-                  "La contraseña debe tener al menos 8 caracteres"
-                );
-              }
-            },
-          },
         },
       },
       {
