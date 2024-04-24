@@ -1,6 +1,8 @@
 const { Admin } = require("../models");
 const bcrypt = require("bcryptjs");
 
+const errorFormatter = require("../utils/errorFormatter");
+
 const adminController = {
   index: async (req, res) => {
     const admins = await Admin.findAll();
@@ -12,46 +14,56 @@ const adminController = {
     try {
       const admin = await Admin.findByPk(id);
       return !admin
-        ? res.status(404).json({ errors: ["Admin not found."] })
+        ? res.status(404).json({ admin, errors: ["Admin not found"] })
         : res.json({ admin });
     } catch (err) {
-      return res.send(err);
+      return res.json({ admin: null, errors: errorFormatter(err) });
     }
   },
   store: async (req, res) => {
-    const admin = req.body;
+    const adminInfo = req.body;
+
+    let hashedPassword = undefined;
+
+    if (adminInfo.password) {
+      hashedPassword = await bcrypt.hash(adminInfo.password, 8);
+    }
 
     try {
-      if (!admin.name || !admin.surname || !admin.email || !hashedPassword) {
-        return res
-          .status(400)
-          .json({ errors: ["All fields are required for admin creation."] });
-      }
-      const hashedPassword = await bcrypt.hash(admin.password, 8);
-      await Admin.create({
-        name: admin.name,
-        surname: admin.surname,
-        email: admin.email,
+      const admin = await Admin.create({
+        name: adminInfo.name,
+        surname: adminInfo.surname,
+        email: adminInfo.email,
         password: hashedPassword,
       });
-      return res.json({ admin });
+      return res.status(201).json({ admin });
     } catch (err) {
-      return res.send(err);
+      return res.status(400).json({ admin: null, errors: errorFormatter(err) });
     }
   },
   update: async (req, res) => {
     const { id } = req.params;
     const admin = await Admin.findByPk(id);
-    const hashedPassword = await bcrypt.hash(admin.password, 8);
-    const adminInfo = req.body;
-
     if (!admin) res.status(404).json({ errors: ["Admin not found."] });
-    if (adminInfo.name) admin.name = adminInfo.name;
-    if (adminInfo.surname) admin.surname = adminInfo.surname;
-    if (adminInfo.email) admin.email = adminInfo.email;
-    if (adminInfo.password) admin.password = hashedPassword;
 
-    await admin.save();
+    const adminInfo = req.body;
+    let hashedPassword = undefined;
+
+    if (adminInfo.passowrd) {
+      hashedPassword = await bcrypt.hash(adminInfo.password, 8);
+    }
+
+    try {
+      admin.update({
+        surname: adminInfo.surname,
+        name: adminInfo.name,
+        email: adminInfo.email,
+        password: hashedPassword,
+      });
+    } catch (err) {
+      return res.status(400).json({ admin: null, errors: errorFormatter(err) });
+    }
+
     return res.json({ admin });
   },
   destroy: async (req, res) => {
@@ -69,7 +81,7 @@ const adminController = {
       admin.destroy();
       return res.json({ admin });
     } catch (err) {
-      return res.send(err);
+      return res.status(400).json({ admin: null, errors: errorFormatter(err) });
     }
   },
 };

@@ -14,9 +14,9 @@ class Admin extends Model {
           allowNull: false,
           validate: {
             notNull: {
-              msg: "The surname cannot be null",
+              msg: "surname cannot be null",
             },
-            notEmpty: { msg: "The surname cannot be empty" },
+            notEmpty: { msg: "surname cannot be empty" },
           },
         },
         name: {
@@ -24,7 +24,7 @@ class Admin extends Model {
           allowNull: false,
           validate: {
             notNull: {
-              msg: "The name cannot be null",
+              msg: "name cannot be null",
             },
             notEmpty: { msg: "name cannot be empty" },
           },
@@ -34,9 +34,10 @@ class Admin extends Model {
           allowNull: false,
           validate: {
             notNull: {
-              msg: "The email cannot be null",
+              msg: "email cannot be null",
             },
-            notEmpty: { msg: "The email cannot be empty" },
+            notEmpty: { msg: "email cannot be empty" },
+            isEmail: { msg: "email must be valid" },
           },
         },
         password: {
@@ -44,9 +45,9 @@ class Admin extends Model {
           allowNull: false,
           validate: {
             notNull: {
-              msg: "The email cannot be null",
+              msg: "password cannot be null",
             },
-            notEmpty: { msg: "The email cannot be empty" },
+            notEmpty: { msg: "password cannot be empty" },
           },
         },
       },
