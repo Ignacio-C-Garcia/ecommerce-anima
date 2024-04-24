@@ -62,7 +62,7 @@ const productController = {
     try {
       const product = await Product.findByPk(id);
       product.destroy();
-      return res.json({ product, message: "Product deleted" });
+      return res.json({ product });
     } catch (error) {
       res.status(404).json({ product: null, errors: errorFormatter(error) });
     }
