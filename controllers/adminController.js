@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const adminController = {
   index: async (req, res) => {
     const admins = await Admin.findAll();
-    return res.json(admins);
+    return res.json({ admins });
   },
 
   show: async (req, res) => {
@@ -13,15 +13,13 @@ const adminController = {
       const admin = await Admin.findByPk(id);
       return !admin
         ? res.status(404).json({ errors: ["Admin not found."] })
-        : res.json(admin);
+        : res.json({ admin });
     } catch (err) {
       return res.send(err);
     }
   },
   store: async (req, res) => {
     const admin = req.body;
-    const hashedPassword = await bcrypt.hash(admin.password, 8);
-    const match = await bcrypt.compare(admin.password, hashedPassword);
 
     try {
       if (!admin.name || !admin.surname || !admin.email || !hashedPassword) {
@@ -29,13 +27,14 @@ const adminController = {
           .status(400)
           .json({ errors: ["All fields are required for admin creation."] });
       }
+      const hashedPassword = await bcrypt.hash(admin.password, 8);
       await Admin.create({
         name: admin.name,
         surname: admin.surname,
         email: admin.email,
         password: hashedPassword,
       });
-      return res.json(admin);
+      return res.json({ admin });
     } catch (err) {
       return res.send(err);
     }
@@ -44,7 +43,6 @@ const adminController = {
     const { id } = req.params;
     const admin = await Admin.findByPk(id);
     const hashedPassword = await bcrypt.hash(admin.password, 8);
-    // const match = await bcrypt.compare(unhashedPassword, hashedPassword);
     const adminInfo = req.body;
 
     if (!admin) res.status(404).json({ errors: ["Admin not found."] });
@@ -54,7 +52,7 @@ const adminController = {
     if (adminInfo.password) admin.password = hashedPassword;
 
     await admin.save();
-    return res.json(admin);
+    return res.json({ admin });
   },
   destroy: async (req, res) => {
     const { id } = req.params;
@@ -69,7 +67,7 @@ const adminController = {
           .json({ errors: ["You cannot delete the admin with ID 1."] });
       }
       admin.destroy();
-      return res.json(admin);
+      return res.json({ admin });
     } catch (err) {
       return res.send(err);
     }
