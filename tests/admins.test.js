@@ -144,7 +144,7 @@ describe("#GET /admins/", () => {
   });
 
   it("should return a list with three admins and root", async () => {
-    await Admin.create(admin3);
+    await Admin.create(admin4);
 
     const response = await request(app)
       .get("/admins/")
