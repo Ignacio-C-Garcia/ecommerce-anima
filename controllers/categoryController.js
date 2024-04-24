@@ -1,5 +1,3 @@
-module.exports = categoryController;
-
 const { Category } = require("../models");
 const errorFormatter = require("../utils/errorFormatter");
 
