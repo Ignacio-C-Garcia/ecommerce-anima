@@ -581,8 +581,10 @@ describe("#PATCH /admins/:id", () => {
 
 describe("#DELETE /admins/:id", () => {
   it("should return the deleted admin", async () => {
+    await Admin.create(admin4);
+    await Admin.create(admin5);
     const response = await request(app)
-      .delete(`/admins/${1}`)
+      .delete(`/admins/${2}`)
       .auth(authAdmin, { type: "bearer" })
       .send();
     const {
