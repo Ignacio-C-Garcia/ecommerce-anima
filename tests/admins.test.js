@@ -594,8 +594,8 @@ describe("#DELETE /admins/:id", () => {
     } = response;
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
-    expect(obtainedAdmin.id).toEqual(1);
-    const adminFromDB = await Admin.findByPk(1);
+    expect(obtainedAdmin.id).toEqual(2);
+    const adminFromDB = await Admin.findByPk(2);
     expect(adminFromDB).toBeNull();
     expect(errors).toBeUndefined();
   });
