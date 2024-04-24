@@ -5,10 +5,11 @@ const orderController = {
     try {
       const orders = await Order.findAll();
       if (!orders || orders.length === 0)
-        res.send({ status: 404, message: "No orders found" });
-      else res.json(orders);
-    } catch (error) {
-      res.send(error);
+        res.status(404).json({ errors: "No orders found" });
+      else res.status(200).json(orders);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ errors: "Bad request!" });
     }
   },
 
@@ -17,19 +18,19 @@ const orderController = {
       const { id } = req.params;
       const order = await Order.findByPk(id);
       !order
-        ? res.send({ status: 404, message: "No orders found" })
-        : res.json(order);
+        ? res.status(404).json({ errors: "No orders found" })
+        : res.status(200)(order);
     } catch (err) {
       console.log(err);
-      return res.json({ message: "Ups! algo salió mal" });
+      return res.status(400).json({ errors: "Bad request!" });
     }
   },
 
   store: async (req, res) => {
     try {
       const order = req.body;
-      if (!order.address) return res.json({ message: "Ups! algo salió mal" });
-      if (!order.userId) return res.json({ message: "Ups! algo salió mal" });
+      if (!order.address) return res.status(401)({ errors: "Unauthorized" });
+      if (!order.userId) return res.status(401)({ errors: "Unauthorized" });
 
       //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.r
       for (const product of order.products) {
@@ -53,10 +54,10 @@ const orderController = {
       }
 
       await Order.create(order);
-      return res.json({ message: "Register added successfully!" });
+      return res.status(201).json({ message: "Register added successfully!" });
     } catch (err) {
       console.log(err);
-      return res.json({ message: "Ups! algo salió mal" });
+      return res.status(400).json({ errors: "Bad request!" });
     }
   },
 
@@ -73,10 +74,10 @@ const orderController = {
 
       await order.save();
 
-      return res.send("order modified successfully!");
+      return res.status(201)("order modified successfully!");
     } catch (err) {
       console.log(err);
-      return res.json({ message: "Ups! algo salió mal" });
+      return res.status(400).json({ errors: "Bad request!" });
     }
   },
 
@@ -85,9 +86,10 @@ const orderController = {
     try {
       const order = await Order.findByPk(id);
       order.destroy();
-      return res.send("The order has been deleted successfully.");
+      return res.status(200)("The order has been deleted successfully.");
     } catch (err) {
-      return res.send(err.message || "The order doesn't exist.");
+      console.log(err)
+      return res.status(404)({ errors: "The order doesn't exist." });
     }
   },
 };
