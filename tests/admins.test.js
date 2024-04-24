@@ -449,12 +449,9 @@ describe("#POST /admins/", () => {
     expect(statusCode).toBe(401);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toHaveLength(4);
+    expect(errors).toHaveLength(1);
 
-    expect(errors).toContain("name cannot be empty");
-    expect(errors).toContain("surname cannot be empty");
-    expect(errors).toContain("password cannot be empty");
-    expect(errors).toContain("email cannot be empty");
+    expect(errors).toContain("Access denied. Only admins authorized.");
   });
 });
 
@@ -598,7 +595,7 @@ describe("#DELETE /admins/:id", () => {
     expect(obtainedAdmin.id).toEqual(1);
     const adminFromDB = await Admin.findByPk(1);
     expect(adminFromDB).toBeNull();
-    expect(errors).toBeUndefined()
+    expect(errors).toBeUndefined();
   });
 
   it("should return an error", async () => {
@@ -616,7 +613,7 @@ describe("#DELETE /admins/:id", () => {
     expect(responseType).toMatch(/json/);
     expect(obtainedAdmin).toBeNull();
     expect(errors).toHaveLength(1);
-    expect(errors).toContain("Admin not found")
+    expect(errors).toContain("Admin not found");
   });
 
   it("should return an error (not authorized)", async () => {
