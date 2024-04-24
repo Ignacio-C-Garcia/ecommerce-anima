@@ -123,7 +123,7 @@ describe("#GET /admins/", () => {
   });
 
   it("should return a list with two admins and root", async () => {
-    await Admin.create(admin2);
+    await Admin.create(admin3);
 
     const response = await request(app)
       .get("/admins/")
