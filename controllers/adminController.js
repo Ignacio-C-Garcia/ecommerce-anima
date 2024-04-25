@@ -44,7 +44,8 @@ const adminController = {
   update: async (req, res) => {
     const { id } = req.params;
     const admin = await Admin.findByPk(id);
-    if (!admin) res.status(404).json({ errors: ["Admin not found."] });
+    if (!admin)
+      res.status(404).json({ admin: null, errors: ["Admin not found."] });
 
     const adminInfo = req.body;
     let hashedPassword = undefined;
@@ -71,7 +72,9 @@ const adminController = {
     try {
       const admin = await Admin.findByPk(id);
       if (!admin) {
-        return res.status(404).json({ errors: ["Admin not found."] });
+        return res
+          .status(404)
+          .json({ admin: null, errors: ["Admin not found."] });
       }
       if (admin.id === 1) {
         return res
