@@ -29,5 +29,7 @@ router.use("/categories", categoryRoutes);
 
 const authRoutes = require("./authRoutes");
 router.use("/tokens", authRoutes);
-
+router.use(function (req, res) {
+  res.status(404).json({ errors: ["Endpoint not found"] });
+});
 module.exports = router;
