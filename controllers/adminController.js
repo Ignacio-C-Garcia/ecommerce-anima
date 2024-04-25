@@ -45,17 +45,18 @@ const adminController = {
     const { id } = req.params;
     const admin = await Admin.findByPk(id);
     if (!admin)
-      res.status(404).json({ admin: null, errors: ["Admin not found."] });
+      return res.status(404).json({ admin: null, errors: ["Admin not found"] });
 
     const adminInfo = req.body;
-    let hashedPassword = undefined;
+    let hashedPassword = req.body.password;
 
     if (adminInfo.passowrd) {
       hashedPassword = await bcrypt.hash(adminInfo.password, 8);
     }
 
     try {
-      admin.update({
+      console.log(adminInfo);
+      await admin.update({
         surname: adminInfo.surname,
         name: adminInfo.name,
         email: adminInfo.email,
@@ -74,7 +75,7 @@ const adminController = {
       if (!admin) {
         return res
           .status(404)
-          .json({ admin: null, errors: ["Admin not found."] });
+          .json({ admin: null, errors: ["Admin not found"] });
       }
       if (admin.id === 1) {
         return res

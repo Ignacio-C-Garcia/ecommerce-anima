@@ -7,7 +7,7 @@ async function createAdmins() {
   for (let i = 0; i < 4; i++) {
     const name = `admin${i + 1}`;
     const surname = `admin${i + 1}`;
-    const hashedPassword = await bcrypt.hash(faker.internet.password(), 5);
+    const hashedPassword = "1234";
     const newAdmin = {
       surname,
       name,
