@@ -457,10 +457,10 @@ describe("#POST /admins/", () => {
 
 describe("#PATCH /admins/:id", () => {
   it("Should not update none of admin's atributes (name, surname, email and password empty)", async () => {
-    const adminBeforeTest = await Admin.findByPk(1);
+    const adminBeforeTest = await Admin.findByPk(2);
 
     const response = await request(app)
-      .patch(`/admins/1`)
+      .patch(`/admins/2`)
       .auth(authAdmin, { type: "bearer" })
       .send({
         name: "",
@@ -487,7 +487,7 @@ describe("#PATCH /admins/:id", () => {
     expect(errors).toContain("email cannot be empty");
     expect(errors).toContain("password cannot be empty");
 
-    const adminAfterTest = await Admin.findByPk(1);
+    const adminAfterTest = await Admin.findByPk(2);
 
     expect(adminBeforeTest).toEqual(adminAfterTest);
   });
@@ -522,10 +522,13 @@ describe("#PATCH /admins/:id", () => {
   });
 
   it("Should update all of atributes from a Admin", async () => {
+    await sequelize.sync({ force: true });
+    await Admin.create(admin2);
+    await Admin.create(admin3);
     const response = await request(app)
-      .patch(`/admins/${1}`)
+      .patch(`/admins/${2}`)
       .auth(authAdmin, { type: "bearer" })
-      .send(admin2);
+      .send(admin4);
 
     const {
       statusCode,
@@ -535,7 +538,7 @@ describe("#PATCH /admins/:id", () => {
 
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
-    expect(obtainedAdmin).toMatchObject(admin2);
+    expect(obtainedAdmin).toMatchObject(admin4);
     expect(errors).toBeUndefined();
   });
 
