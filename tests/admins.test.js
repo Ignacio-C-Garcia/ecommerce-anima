@@ -5,15 +5,15 @@ const { sequelize, User, Admin } = require("../models");
 const createAdmins = require("./utils/data/admin.data");
 let authAdmin;
 let authUser;
-let admin2, admin3, admin4, admin5;
+
 const root = {
   surname: "root",
   name: "root",
   email: "root@project.com",
   password: "root",
 };
+let [admin2, admin3, admin4, admin5] = createAdmins;
 beforeAll(async () => {
-  [admin2, admin3, admin4, admin5] = await createAdmins();
   await sequelize.sync({ force: true });
 
   await Admin.create(root);
@@ -429,10 +429,10 @@ describe("#POST /admins/", () => {
     expect(errors).toContain("Access denied. Only admins authorized.");
   });
 
-  it("should not create a new admin and return an error (name, surname, email and password empty)", async () => {
+  it("should return an error (name, surname, email and password empty)", async () => {
     const response = await request(app)
       .post("/admins/")
-      .auth(authUser, { type: "bearer" })
+      .auth(authAdmin, { type: "bearer" })
       .send({
         name: "",
         surname: "",
@@ -446,12 +446,14 @@ describe("#POST /admins/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toHaveLength(1);
 
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("surname cannot be empty");
+    expect(errors).toContain("name cannot be empty");
+    expect(errors).toContain("email cannot be empty");
+    expect(errors).toContain("password cannot be empty");
   });
 });
 

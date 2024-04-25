@@ -23,7 +23,7 @@ const adminController = {
   store: async (req, res) => {
     const adminInfo = req.body;
 
-    let hashedPassword = undefined;
+    let hashedPassword = req.body.password;
 
     if (adminInfo.password) {
       hashedPassword = await bcrypt.hash(adminInfo.password, 8);

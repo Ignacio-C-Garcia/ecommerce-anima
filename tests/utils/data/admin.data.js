@@ -1,7 +1,7 @@
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcryptjs");
 
-async function createAdmins() {
+function createAdmins() {
   const admins = [];
 
   for (let i = 0; i < 4; i++) {
@@ -19,4 +19,4 @@ async function createAdmins() {
   return admins;
 }
 
-module.exports = createAdmins;
+module.exports = createAdmins();
