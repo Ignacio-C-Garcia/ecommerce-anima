@@ -8,6 +8,7 @@ const {
   category3,
   category4,
 } = require("./utils/data/category.data");
+const { findByPk } = require("../models/Admin");
 let authAdmin;
 let authUser;
 beforeAll(async () => {
@@ -267,7 +268,7 @@ describe("#POST /categories/", () => {
 
     expect(obtainedCategory).toBeNull();
     expect(errors).toHaveLength(1);
-    expect(errors).toContain("name cannot be null");
+    expect(errors).toContain("name cannot be empty");
   });
 
   it("should not create a new category and return an error (not authorized)", async () => {
@@ -341,7 +342,7 @@ describe("#PATCH /categories/:id", () => {
 
     expect(errors).not.toBeUndefined();
     expect(errors).toHaveLength(1);
-    expect(errors).toContain("name cannot be null");
+    expect(errors).toContain("name is required");
   });
 
   it("Should update Category", async () => {
@@ -361,8 +362,10 @@ describe("#PATCH /categories/:id", () => {
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
 
-    expect(obtainedCategory).toMatch(category2);
-    expect(categoryFromDB).toMatch(category2);
+    const categoryAfterTest = await Category.findByPk(categoryFromDB.id);
+
+    expect(obtainedCategory).toMatchObject(category2);
+    expect(categoryAfterTest).toMatchObject(category2);
 
     expect(errors).toBeUndefined();
   });
@@ -430,7 +433,7 @@ describe("#DELETE /categories/:id", () => {
   });
 
   it("should return an error", async () => {
-    await Category.sync({ force: true });
+    await sequelize.sync({ force: true });
     const response = await request(app)
       .delete(`/categories/${1}`)
       .auth(authAdmin, { type: "bearer" })

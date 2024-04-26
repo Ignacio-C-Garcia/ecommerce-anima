@@ -18,7 +18,7 @@ const orderController = {
       const order = await Order.findByPk(id);
       !order
         ? res.status(404).json({ errors: "No orders found" })
-        : res.status(200).json({order});
+        : res.status(200).json({ order });
     } catch (err) {
       return res.status(400).json({ errors: "Bad request!" });
     }
@@ -27,8 +27,8 @@ const orderController = {
   store: async (req, res) => {
     try {
       const order = req.body;
-      if (!order.address) return res.status(401)({ errors: "Unauthorized" });
-      if (!order.userId) return res.status(401)({ errors: "Unauthorized" });
+      if (!order.address) return res.status(400).json({ errors: "Unauthorized" });
+      if (!order.userId) return res.status(400).json({ errors: "Unauthorized" });
 
       //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.r
       for (const product of order.products) {
@@ -71,9 +71,11 @@ const orderController = {
 
       await order.save();
 
-      return res.status(201)("order modified successfully!");
+      return res
+        .status(201)
+        .json({ order, message: "order modified successfully!" });
     } catch (err) {
-      return res.status(400).json({ errors: "Bad request!" });
+      return res.status(404).json({order: null, errors: ["Order not found"] });
     }
   },
 
@@ -82,9 +84,13 @@ const orderController = {
     try {
       const order = await Order.findByPk(id);
       order.destroy();
-      return res.status(200)("The order has been deleted successfully.");
+      return res
+        .status(200)
+        .json({ order, message: "The order has been deleted successfully" });
     } catch (err) {
-      return res.status(404).json({ errors: "The order doesn't exist." });
+      return res
+        .status(404)
+        .json({ order: null, errors: ["The order doesn't exist"] });
     }
   },
 };

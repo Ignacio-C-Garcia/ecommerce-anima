@@ -11,6 +11,13 @@ class Category extends Model {
         },
         name: {
           type: DataTypes.STRING,
+          allowNull: false,
+          validate: {
+            notNull: {
+              msg: "name cannot be null",
+            },
+            notEmpty: { msg: "name cannot be empty" },
+          },
         },
       },
       {

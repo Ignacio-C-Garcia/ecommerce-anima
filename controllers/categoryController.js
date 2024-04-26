@@ -35,24 +35,22 @@ const categoryController = {
         .status(404)
         .json({ category, errors: ["Category is not available"] });
 
-    const { name, description, pic, stock, price, featured, product } =
-      req.body;
+    const { name } = req.body;
 
     try {
+      if (name === undefined)
+        return res.status(400).json({
+          category: null,
+          errors: errorFormatter({ message: "name is required" }),
+        });
       await category.update({
         name,
-        description,
-        pic,
-        stock,
-        price,
-        featured,
-        product,
       });
 
       return res.json({ category });
     } catch (error) {
       return res.status(400).json({
-        product: null,
+        category: null,
         errors: errorFormatter(error),
       });
     }
@@ -61,10 +59,18 @@ const categoryController = {
     const { id } = req.params;
     try {
       const category = await Category.findByPk(id);
+      if (!category) {
+       return res
+          .status(404)
+          .json({
+            category: null,
+            errors: errorFormatter({ message: "Category not available" }),
+          });
+      }
       category.destroy();
       return res.json({ category, message: "Category deleted" });
     } catch (error) {
-      res.status(404).json({ category: null, errors: errorFormatter(error) });
+     return res.status(404).json({ category: null, errors: errorFormatter(error) });
     }
   },
 };

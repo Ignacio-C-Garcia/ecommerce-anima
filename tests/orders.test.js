@@ -479,6 +479,6 @@ describe("#DELETE /orders/:id", () => {
     expect(responseType).toMatch(/json/);
     expect(obtainedOrder).toBeNull();
     expect(errors).toHaveLength(1);
-    expect(errors).toContain("Order not found");
+    expect(errors).toContain("The order doesn't exist");
   });
 });
