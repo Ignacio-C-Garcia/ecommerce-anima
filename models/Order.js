@@ -12,10 +12,24 @@ class Order extends Model {
         products: {
           type: DataTypes.JSON,
           allowNull: false,
+          validate: {
+            notEmpty: {
+              msg: "Products list cannot be empty",
+            },
         },
+      },
         address: {
           type: DataTypes.STRING,
           allowNull: false,
+          validate: {
+            notEmpty: {
+              msg: "Address cannot be empty",
+            },
+            len: {
+              args: [5, 150], 
+              msg: "Address must be between 5 and 150 characters",
+            },
+          },
         },
         status: {
           type: DataTypes.STRING,
