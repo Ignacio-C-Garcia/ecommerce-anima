@@ -8,7 +8,6 @@ const orderController = {
         res.status(404).json({ errors: "No orders found" });
       else res.status(200).json(orders);
     } catch (err) {
-      console.log(err);
       return res.status(400).json({ errors: "Bad request!" });
     }
   },
@@ -19,9 +18,8 @@ const orderController = {
       const order = await Order.findByPk(id);
       !order
         ? res.status(404).json({ errors: "No orders found" })
-        : res.status(200)(order);
+        : res.status(200).json({order});
     } catch (err) {
-      console.log(err);
       return res.status(400).json({ errors: "Bad request!" });
     }
   },
@@ -56,7 +54,6 @@ const orderController = {
       await Order.create(order);
       return res.status(201).json({ message: "Register added successfully!" });
     } catch (err) {
-      console.log(err);
       return res.status(400).json({ errors: "Bad request!" });
     }
   },
@@ -76,7 +73,6 @@ const orderController = {
 
       return res.status(201)("order modified successfully!");
     } catch (err) {
-      console.log(err);
       return res.status(400).json({ errors: "Bad request!" });
     }
   },
@@ -88,8 +84,7 @@ const orderController = {
       order.destroy();
       return res.status(200)("The order has been deleted successfully.");
     } catch (err) {
-      console.log(err)
-      return res.status(404)({ errors: "The order doesn't exist." });
+      return res.status(404).json({ errors: "The order doesn't exist." });
     }
   },
 };
