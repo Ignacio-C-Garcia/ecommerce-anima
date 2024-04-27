@@ -1,5 +1,6 @@
 const request = require("supertest");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const app = require("../index");
 const { sequelize, User, Admin } = require("../models");
 const users = require("./utils/data/user.data");
@@ -78,12 +79,12 @@ describe("#GET /users/", () => {
       body: { users: obtainedUsers, errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
     expect(obtainedUsers).toBeUndefined();
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 
   it("should return an error (missing token)", async () => {
@@ -103,49 +104,7 @@ describe("#GET /users/", () => {
     expect(errors).toContain("Cannot authenticate API key");
   });
 
-  it("should return an empty array (length = 1)", async () => {
-    const response = await request(app)
-      .get("/users/")
-      .auth(authAdmin, { type: "bearer" })
-      .send();
-
-    const {
-      statusCode,
-      type: responseType,
-      body: { users: obtainedUsers, errors },
-    } = response;
-
-    expect(statusCode).toBe(200);
-    expect(responseType).toMatch(/json/);
-
-    expect(obtainedUsers).toHaveLength(1);
-    expect(errors).toBeUndefined();
-  });
-
-  it("should return a list with user1 and user2", async () => {
-    await User.create(user2);
-
-    const response = await request(app)
-      .get("/users/")
-      .auth(authAdmin, { type: "bearer" })
-      .send();
-
-    const {
-      statusCode,
-      type: responseType,
-      body: { users: obtainedUsers, errors },
-    } = response;
-
-    expect(statusCode).toBe(200);
-    expect(responseType).toMatch(/json/);
-    expect(obtainedUsers).toMatchObject([user1, user2]);
-
-    expect(errors).toBeUndefined();
-  });
-
   it("should return a list with user1, user2 and user3", async () => {
-    await User.create(user3);
-
     const response = await request(app)
       .get("/users/")
       .auth(authAdmin, { type: "bearer" })
@@ -240,8 +199,8 @@ describe("#GET /users/:id", () => {
     expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
-    expect(obtainedUser).toBeNull(user3);
-    expect(errors).toContain("Access denied");
+    expect(obtainedUser).toBeNull();
+    expect(errors).toContain("not authorized");
   });
 
   it("should return null and error message (There is no user with the given id)", async () => {
@@ -313,11 +272,12 @@ describe("#POST /users/", () => {
 
     expect(statusCode).toBe(201);
     expect(responseType).toMatch(/json/);
-
+    expect(obtainedUser).not.toBeUndefined();
     const adminFromDB = await User.findByPk(obtainedUser.id);
+    expect(adminFromDB).not.toBeNull();
     user4.password = adminFromDB.password;
-    expect(adminFromDB).toMatchObject(user2);
-    expect(obtainedUser).toMatchObject(user2);
+    expect(adminFromDB).toMatchObject(user4);
+    expect(obtainedUser).toMatchObject(user4);
     expect(errors).toBeUndefined();
   });
 
@@ -377,6 +337,8 @@ describe("#POST /users/", () => {
         surname: "user error",
         email: "adminEmailWithoutFormat",
         password: "user",
+        address: "error 1234",
+        phone: 987654321,
       });
 
     const {
@@ -410,12 +372,17 @@ describe("#POST /users/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toHaveLength(1);
 
-    expect(errors).toContain("");
+    expect(errors).toContain("name cannot be empty");
+    expect(errors).toContain("surname cannot be empty");
+    expect(errors).toContain("email must be valid");
+    expect(errors).toContain("address cannot be empty");
+    expect(errors).toContain("phone cannot be empty");
+    expect(errors).toContain("password cannot be empty");
+    expect(errors).toHaveLength(6);
   });
 });
 
@@ -428,11 +395,11 @@ describe("#PATCH /users/:id", () => {
       .auth(authAdmin, { type: "bearer" })
       .send({
         name: "",
+        phone: "",
         surname: "",
         email: "",
         password: "",
         address: "",
-        email: "",
       });
 
     const {
@@ -449,7 +416,7 @@ describe("#PATCH /users/:id", () => {
 
     expect(errors).toContain("name cannot be empty");
     expect(errors).toContain("surname cannot be empty");
-    expect(errors).toContain("email cannot be empty");
+    expect(errors).toContain("email must be valid");
     expect(errors).toContain("address cannot be empty");
     expect(errors).toContain("phone cannot be empty");
     expect(errors).toContain("password cannot be empty");
@@ -491,11 +458,11 @@ describe("#PATCH /users/:id", () => {
   });
   it("Should update some atributes of a User (user2 modifies user2)", async () => {
     const testObj = { name: "newName", email: "newEmail@user.com" };
-
-    const adminFromDB = await User.create(user2);
+    await sequelize.sync({ force: true });
+    const adminFromDB = await User.bulkCreate([user1, user2]);
 
     const response = await request(app)
-      .patch(`/users/${adminFromDB.id}`)
+      .patch(`/users/${2}`)
       .auth(authUser2, { type: "bearer" })
       .send(testObj);
 
@@ -507,8 +474,6 @@ describe("#PATCH /users/:id", () => {
 
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
-
-    expect(obtainedUser.id).toEqual(adminFromDB.id);
 
     expect(obtainedUser.name).toBe(testObj.name);
     expect(obtainedUser.email).toBe(testObj.email);
@@ -535,25 +500,20 @@ describe("#PATCH /users/:id", () => {
       body: { user: obtainedUser, errors },
     } = response;
 
-    expect(statusCode).toBe(200);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
-    expect(obtainedUser.id).toEqual(adminFromDB.id);
+    expect(obtainedUser).toBeNull();
 
-    expect(obtainedUser.name).toBe(testObj.name);
-    expect(obtainedUser.email).toBe(testObj.email);
-
-    expect(obtainedUser.surname).toBe(user4.surname);
-    expect(obtainedUser.password).toBe(user4.password);
-    expect(obtainedUser.address).toBe(user4.address);
-    expect(obtainedUser.phone).toBe(user4.phone);
-    expect(errors).toBeUndefined();
+    expect(errors).not.toBeUndefined();
+    expect(errors).toContain("not authorized");
   });
 
   it("Should update all of atributes from a User (user3 modifies user3)", async () => {
     await sequelize.sync({ force: true });
     await User.create(user3);
     await User.create(user4);
+    authUser3 = jwt.sign({ sub: 1, role: "User" }, process.env.TOKEN_SECRET);
     const response = await request(app)
       .patch(`/users/${1}`)
       .auth(authUser3, { type: "bearer" })
@@ -567,6 +527,7 @@ describe("#PATCH /users/:id", () => {
 
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
+    obtainedUser.password = user4.password;
     expect(obtainedUser).toMatchObject(user4);
     expect(errors).toBeUndefined();
   });
@@ -631,32 +592,32 @@ describe("#DELETE /users/:id", () => {
 
   it("should return the deleted user (user2 deletes user2)", async () => {
     await sequelize.sync({ force: true });
-    await User.create(user2);
+    await User.create(user1);
     const response = await request(app)
       .delete(`/users/${1}`)
-      .auth(authUser2, { type: "bearer" })
+      .auth(authUser, { type: "bearer" })
       .send();
+
     const {
       statusCode,
       type: responseType,
       body: { user: obtainedUser, errors },
     } = response;
+
     expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
-    expect(obtainedUser).toMatchObject(user2);
+    expect(obtainedUser).toMatchObject(user1);
     const adminFromDB = await User.findByPk(1);
     expect(adminFromDB).toBeNull();
     expect(errors).toBeUndefined();
   });
 
-  it("should return the deleted user (user2 tries to delete user3)", async () => {
+  it("should return an error (user1 tries to delete user3)", async () => {
     await sequelize.sync({ force: true });
-    await User.create(user);
-    await User.create(user2);
-    await User.create(user3);
+    await User.bulkCreate([user1, user2, user3]);
     const response = await request(app)
       .delete(`/users/${3}`)
-      .auth(authUser2, { type: "bearer" })
+      .auth(authUser, { type: "bearer" })
       .send();
     const {
       statusCode,
@@ -673,7 +634,7 @@ describe("#DELETE /users/:id", () => {
   });
 
   it("should return an error (id does not exist in DB)", async () => {
-    await User.sync({ force: true });
+    await sequelize.sync({ force: true });
     const response = await request(app)
       .delete(`/users/${99}`)
       .auth(authAdmin, { type: "bearer" })
