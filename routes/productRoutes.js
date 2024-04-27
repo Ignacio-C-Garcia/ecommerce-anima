@@ -8,7 +8,6 @@ router.get("/", productController.index);
 router.get("/:id", productController.show);
 
 router.use(checkjwt, isAdmin);
-
 router.post("/", productController.store);
 router.patch("/:id", productController.update);
 router.delete("/:id", productController.destroy);
