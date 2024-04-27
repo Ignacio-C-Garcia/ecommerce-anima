@@ -55,7 +55,6 @@ const adminController = {
     }
 
     try {
-      console.log(adminInfo);
       await admin.update({
         surname: adminInfo.surname,
         name: adminInfo.name,

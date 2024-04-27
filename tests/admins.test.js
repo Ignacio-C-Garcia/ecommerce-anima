@@ -57,12 +57,12 @@ describe("#GET /admins/", () => {
       body: { admins: obtainedAdmins, errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
     expect(obtainedAdmins).toBeUndefined();
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 
   it("should return an error (missing token)", async () => {
@@ -423,10 +423,10 @@ describe("#POST /admins/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 
   it("should return an error (name, surname, email and password empty)", async () => {
@@ -576,10 +576,10 @@ describe("#PATCH /admins/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
 
@@ -634,9 +634,9 @@ describe("#DELETE /admins/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });

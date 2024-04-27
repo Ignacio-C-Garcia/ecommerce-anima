@@ -29,7 +29,6 @@ const authController = {
 
       return res.send("Invalid credentials! Check it and try again.");
     } catch (err) {
-      console.log(err);
       return res.status(500).send("Cannot authenticate. Try again.");
     }
   },

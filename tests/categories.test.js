@@ -283,10 +283,10 @@ describe("#POST /categories/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
 
@@ -403,10 +403,10 @@ describe("#PATCH /categories/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
 
@@ -464,10 +464,10 @@ describe("#DELETE /categories/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
     expect(errors).toHaveLength(1);
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });

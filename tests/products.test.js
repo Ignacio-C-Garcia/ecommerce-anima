@@ -547,10 +547,10 @@ describe("#POST /products/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
 
@@ -704,10 +704,10 @@ describe("#PATCH /products/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
 
@@ -754,9 +754,9 @@ describe("#DELETE /products/:id", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 });
