@@ -3,33 +3,24 @@ require("dotenv").config();
 const app = require("../index");
 const { sequelize, User, Admin } = require("../models");
 const createAdmins = require("./utils/data/admin.data");
+const createUsers = require("./utils/data/user.data");
 let authAdmin;
 let authUser;
+let user1;
+let root, admin2, admin3, admin4, admin5;
 
-const root = {
-  surname: "root",
-  name: "root",
-  email: "root@project.com",
-  password: "root",
-};
-let [admin2, admin3, admin4, admin5] = createAdmins;
 beforeAll(async () => {
+  [user1] = await createUsers();
+  [root, admin2, admin3, admin4, admin5] = await createAdmins();
   await sequelize.sync({ force: true });
 
   await Admin.create(root);
 
-  await User.create({
-    name: "user",
-    surname: "user",
-    email: "user@project.com",
-    address: "street 1234",
-    phone: "123456789",
-    password: "user",
-  });
+  await User.create(user1);
 
   const responseForUser = await request(app).post("/tokens").send({
-    email: "user@project.com",
-    password: "user",
+    email: user1.email,
+    password: "userPassword",
   });
 
   authUser = responseForUser.body.token;
@@ -37,10 +28,9 @@ beforeAll(async () => {
   const {
     body: { token },
   } = await request(app).post("/tokens").send({
-    email: "root@project.com",
-    password: "root",
+    email: root.email,
+    password: "adminPassword",
   });
-
   authAdmin = token;
 });
 

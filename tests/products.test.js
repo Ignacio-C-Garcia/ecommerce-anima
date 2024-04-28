@@ -2,6 +2,8 @@ const request = require("supertest");
 require("dotenv").config();
 const app = require("../index");
 const { Product, Category, sequelize, User, Admin } = require("../models");
+const createAdmins = require("./utils/data/admin.data");
+const createUsers = require("./utils/data/user.data");
 const {
   product1,
   product2,
@@ -11,32 +13,23 @@ const {
 } = require("./utils/data/product.data");
 let authAdmin;
 let authUser;
-
+let user1;
+let admin1;
 beforeAll(async () => {
+  [user1] = await createUsers();
+  [admin1] = await createAdmins();
   await sequelize.sync({ force: true });
   await Category.bulkCreate([{ name: "salado" }, { name: "dulce" }]);
-  await Admin.create({
-    surname: "admin",
-    name: "admin",
-    email: "admin@project.com",
-    password: "admin",
-  });
-  await User.create({
-    name: "user",
-    surname: "user",
-    email: "user@project.com",
-    address: "street 1234",
-    phone: "123456789",
-    password: "user",
-  });
+  await Admin.create(admin1);
+  await User.create(user1);
   const responseForUser = await request(app).post("/tokens").send({
-    email: "user@project.com",
-    password: "user",
+    email: user1.email,
+    password: "userPassword",
   });
   authUser = responseForUser.body.token;
   const responseForAdmin = await request(app).post("/tokens").send({
-    email: "admin@project.com",
-    password: "admin",
+    email: admin1.email,
+    password: "adminPassword",
   });
   authAdmin = responseForAdmin.body.token;
 });

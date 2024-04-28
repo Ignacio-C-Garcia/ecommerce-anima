@@ -1,16 +1,15 @@
 const jwt = require("jsonwebtoken");
 const { Admin, User } = require("../models");
-
+const bcrypt = require("bcryptjs");
 const authController = {
   getToken: async (req, res) => {
     try {
       const { email, password } = req.body;
+      if (!email || !password) throw Error("invalid credentials");
       const admin = await Admin.findOne({ where: { email } });
       let token;
 
-      
-
-      if (admin && admin.password === password) {
+      if (admin && (await bcrypt.compare(password, admin.password))) {
         token = jwt.sign(
           { sub: admin.id, role: "Admin" },
           process.env.TOKEN_SECRET
@@ -19,7 +18,7 @@ const authController = {
       }
 
       const user = await User.findOne({ where: { email } });
-      if (user && user.password === password) {
+      if (user && (await bcrypt.compare(password, user.password))) {
         token = jwt.sign(
           { sub: user.id, role: "User" },
           process.env.TOKEN_SECRET
@@ -27,9 +26,15 @@ const authController = {
         return res.status(200).json({ token });
       }
 
-      return res.send("Invalid credentials! Check it and try again.");
+      return res.status(400).json({
+        token: null,
+        errors: ["Cannot authenticate. Try again."],
+      });
     } catch (err) {
-      return res.status(500).send("Cannot authenticate. Try again.");
+      return res.status(400).json({
+        token: null,
+        errors: ["Invalid credentials! Check it and try again"],
+      });
     }
   },
 };

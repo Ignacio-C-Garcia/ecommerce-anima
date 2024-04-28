@@ -3,28 +3,18 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const app = require("../index");
 const { sequelize, User, Admin } = require("../models");
-const users = require("./utils/data/user.data");
+const createAdmins = require("./utils/data/admin.data");
+const createUsers = require("./utils/data/user.data");
+
 let authAdmin;
 let authUser, authUser2, authUser3;
 
-const root = {
-  surname: "root",
-  name: "root",
-  email: "root@project.com",
-  password: "root",
-};
-const user1 = {
-  name: "user",
-  surname: "user",
-  email: "user@project.com",
-  address: "street 1234",
-  phone: "123456789",
-  password: "user",
-};
-let [user2, user3, user4, user5] = users;
+let root;
+let user1, user2, user3, user4;
 beforeAll(async () => {
   await sequelize.sync({ force: true });
-
+  [root] = await createAdmins();
+  [user1, user2, user3, user4] = await createUsers();
   await Admin.create(root);
 
   await User.bulkCreate([user1, user2, user3]);
@@ -33,7 +23,7 @@ beforeAll(async () => {
     body: { token: userToken },
   } = await request(app).post("/tokens").send({
     email: user1.email,
-    password: user1.password,
+    password: "userPassword",
   });
 
   authUser = userToken;
@@ -42,7 +32,7 @@ beforeAll(async () => {
     body: { token: userToken2 },
   } = await request(app).post("/tokens").send({
     email: user2.email,
-    password: user2.password,
+    password: "userPassword",
   });
 
   authUser2 = userToken2;
@@ -51,7 +41,7 @@ beforeAll(async () => {
     body: { token: userToken3 },
   } = await request(app).post("/tokens").send({
     email: user3.email,
-    password: user3.password,
+    password: "userPassword",
   });
 
   authUser3 = userToken3;
@@ -59,8 +49,8 @@ beforeAll(async () => {
   const {
     body: { token: adminToken },
   } = await request(app).post("/tokens").send({
-    email: "root@project.com",
-    password: "root",
+    email: root.email,
+    password: "adminPassword",
   });
 
   authAdmin = adminToken;

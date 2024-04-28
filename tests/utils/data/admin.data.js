@@ -1,13 +1,13 @@
 const { faker } = require("@faker-js/faker");
 const bcrypt = require("bcryptjs");
 
-function createAdmins() {
+async function createAdmins() {
   const admins = [];
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     const name = `admin${i + 1}`;
     const surname = `admin${i + 1}`;
-    const hashedPassword = "1234";
+    const hashedPassword = await bcrypt.hash("adminPassword", 8);
     const newAdmin = {
       surname,
       name,
@@ -19,4 +19,4 @@ function createAdmins() {
   return admins;
 }
 
-module.exports = createAdmins();
+module.exports = createAdmins;

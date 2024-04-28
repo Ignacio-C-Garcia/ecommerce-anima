@@ -3,47 +3,25 @@ require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const app = require("../index");
 const { sequelize, Admin, User } = require("../models");
-const [admin2, admin3, admin4] = require("./utils/data/admin.data.js");
-const user1 = {
-  name: "user",
-  surname: "user",
-  email: "user@project.com",
-  address: "street 1234",
-  phone: "123456789",
-  password: "user",
-};
+const createAdmins = require("./utils/data/admin.data.js");
+const createUsers = require("./utils/data/user.data.js");
+let admin1, admin2, admin3;
+let user1;
 const { jwtDecode } = require("jwt-decode");
-let authAdmin;
-let authUser;
-beforeAll(async () => {
-  await sequelize.sync({ force: true });
-  await Admin.create({
-    surname: "root",
-    name: "root",
-    email: "root@project.com",
-    password: "root",
-  });
-  await Admin.bulkCreate([admin2, admin3, admin4]);
-  await User.create(user1);
-  const responseForUser = await request(app).post("/tokens").send({
-    email: "user@project.com",
-    password: "user",
-  });
 
-  authUser = responseForUser.body.token;
-  const responseForAdmin = await request(app).post("/tokens").send({
-    email: "admin@project.com",
-    password: "admin",
-  });
-  authAdmin = responseForAdmin.body.token;
+beforeAll(async () => {
+  [admin1, admin2, admin3] = await createAdmins();
+  [user1] = await createUsers();
+  await sequelize.sync({ force: true });
+  await Admin.bulkCreate([admin1, admin2, admin3]);
+  await User.create(user1);
 });
 
 describe("#POST /tokens/", () => {
-  it("should create a token (Admin)->(token role Admin)", async () => {
+  it("should create a token (Admin2)->(token role Admin)", async () => {
     const response = await request(app)
       .post("/tokens/")
-      .auth(authAdmin, { type: "bearer" })
-      .send(admin2);
+      .send({ email: admin2.email, password: "adminPassword" });
 
     const {
       statusCode,
@@ -51,18 +29,17 @@ describe("#POST /tokens/", () => {
       body: { token, errors },
     } = response;
 
-    expect(statusCode).toBe(201);
+    expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
     expect(token).not.toBeUndefined();
     expect(jwtDecode(token)).toMatchObject({ sub: 2, role: "Admin" });
     expect(errors).toBeUndefined();
   });
 
-  it("should create a token (User)->(token role User)", async () => {
+  it("should create a token (User1)->(token role User)", async () => {
     const response = await request(app)
       .post("/tokens/")
-      .auth(authAdmin, { type: "bearer" })
-      .send(user1);
+      .send({ email: user1.email, password: "userPassword" });
 
     const {
       statusCode,
@@ -70,7 +47,7 @@ describe("#POST /tokens/", () => {
       body: { token, errors },
     } = response;
 
-    expect(statusCode).toBe(201);
+    expect(statusCode).toBe(200);
     expect(responseType).toMatch(/json/);
     expect(token).not.toBeUndefined();
     expect(jwtDecode(token)).toMatchObject({ sub: 1, role: "User" });
@@ -80,7 +57,6 @@ describe("#POST /tokens/", () => {
   it("should return an error (empty email)->(errors)", async () => {
     const response = await request(app)
       .post("/tokens/")
-      .auth(authAdmin, { type: "bearer" })
       .send({ email: "", password: "1234" });
 
     const {
@@ -92,14 +68,13 @@ describe("#POST /tokens/", () => {
     expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
 
-    expect(token).toBeUndefined();
+    expect(token).toBeNull();
     expect(errors).toContain("Invalid credentials! Check it and try again");
   });
 
   it("should return an error (empty password)->(errors)", async () => {
     const response = await request(app)
       .post("/tokens/")
-      .auth(authAdmin, { type: "bearer" })
       .send({ email: admin2.email, password: "" });
 
     const {
@@ -111,14 +86,13 @@ describe("#POST /tokens/", () => {
     expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
 
-    expect(token).toBeUndefined();
-    expect(errors).toContain("Cannot authenticate. Try again");
+    expect(token).toBeNull();
+    expect(errors).toContain("Invalid credentials! Check it and try again");
   });
 
   it("should return an error (null email)->(errors)", async () => {
     const response = await request(app)
       .post("/tokens/")
-      .auth(authAdmin, { type: "bearer" })
       .send({ password: "1234" });
 
     const {
@@ -148,13 +122,13 @@ describe("#POST /tokens/", () => {
 
     expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
-    expect(token).toBeUndefined();
+    expect(token).toBeNull();
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Invalid credentials! Check it and try again.");
+    expect(errors).toContain("Invalid credentials! Check it and try again");
   });
 });
 
-describe("GET (endpoint not implemented)",  () => {
+describe("GET (endpoint not implemented)", () => {
   it("should return an error (Endpoint not found)", async () => {
     const response = await request(app)
       .get("/tokens/")
@@ -173,7 +147,7 @@ describe("GET (endpoint not implemented)",  () => {
   });
 });
 
-describe("#PUT (endpoint not implemented)",  () => {
+describe("#PUT (endpoint not implemented)", () => {
   it("should return an error (Endpoint not found)", async () => {
     const response = await request(app)
       .put("/tokens/")
@@ -192,7 +166,7 @@ describe("#PUT (endpoint not implemented)",  () => {
   });
 });
 
-describe("#PATCH (endpoint not implemented)",  () => {
+describe("#PATCH (endpoint not implemented)", () => {
   it("should return an error (Endpoint not found)", async () => {
     const response = await request(app)
       .patch("/tokens/")
@@ -211,7 +185,7 @@ describe("#PATCH (endpoint not implemented)",  () => {
   });
 });
 
-describe("#DELETE (endpoint not implemented)",  () => {
+describe("#DELETE (endpoint not implemented)", () => {
   it("should return an error (Endpoint not found)", async () => {
     const response = await request(app).delete("/tokens/").send();
 
@@ -227,4 +201,3 @@ describe("#DELETE (endpoint not implemented)",  () => {
     expect(errors).toContain("Endpoint not found");
   });
 });
-
