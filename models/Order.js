@@ -14,19 +14,19 @@ class Order extends Model {
           allowNull: false,
           validate: {
             notEmpty: {
-              msg: "Products list cannot be empty",
+              msg: "products cannot be empty",
             },
+          },
         },
-      },
         address: {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
             notEmpty: {
-              msg: "Address cannot be empty",
+              msg: "address cannot be empty",
             },
             len: {
-              args: [5, 150], 
+              args: [5, 150],
               msg: "Address must be between 5 and 150 characters",
             },
           },
@@ -35,6 +35,11 @@ class Order extends Model {
           type: DataTypes.STRING,
           values: ["pending", "rejected", "processing", "shipped", "delivered"],
           allowNull: false,
+          validate: {
+            notEmpty: {
+              msg: "status cannot be empty",
+            },
+          },
         },
       },
       {

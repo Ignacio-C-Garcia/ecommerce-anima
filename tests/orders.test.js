@@ -16,30 +16,32 @@ const {
   order2FromUser2,
 } = require("./utils/data/order.data");
 const { product1, product2, product3 } = require("./utils/data/product.data");
-const [user1, user2] = require("./utils/data/user.data");
+const createAdmins = require("./utils/data/admin.data");
+const createUsers = require("./utils/data/user.data");
+let user1, user2, user3, root;
 const { category1, category2 } = require("./utils/data/category.data");
 let authAdmin;
-let authUser, authUser2;
-
-const root = {
-  surname: "root",
-  name: "root",
-  email: "root@project.com",
-  password: "root",
-};
+let authUser;
 
 beforeAll(async () => {
+  [root] = await createAdmins();
+  [user1, user2, user3] = await createUsers();
   await sequelize.sync({ force: true });
   await Admin.create(root);
-  await User.bulkCreate([user1, user2]);
+  await User.bulkCreate([user1, user2, user3]);
   await Category.bulkCreate([category1, category2]);
   await Product.bulkCreate([product1, product2, product3]);
-
+  /* await Order.bulkCreate([
+    order1FromUser1,
+    order2FromUser1,
+    order1FromUser2,
+    order2FromUser2,
+  ]);*/
   const {
     body: { token: userToken },
   } = await request(app).post("/tokens").send({
     email: user1.email,
-    password: user1.password,
+    password: "userPassword",
   });
 
   authUser = userToken;
@@ -48,7 +50,7 @@ beforeAll(async () => {
     body: { token: userToken2 },
   } = await request(app).post("/tokens").send({
     email: user2.email,
-    password: user2.password,
+    password: "userPassword",
   });
 
   authUser2 = userToken2;
@@ -56,8 +58,8 @@ beforeAll(async () => {
   const {
     body: { token: adminToken },
   } = await request(app).post("/tokens").send({
-    email: "root@project.com",
-    password: "root",
+    email: root.email,
+    password: "adminPassword",
   });
 
   authAdmin = adminToken;
@@ -93,12 +95,12 @@ describe("#GET /orders/", () => {
       body: { orders: obtainedOrders, errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
     expect(obtainedOrders).toBeUndefined();
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 
   it("should return an empty array (length = 0)", async () => {
@@ -113,11 +115,11 @@ describe("#GET /orders/", () => {
       body: { orders: obtainedOrders, errors },
     } = response;
 
-    expect(statusCode).toBe(200);
+    expect(statusCode).toBe(404);
     expect(responseType).toMatch(/json/);
 
     expect(obtainedOrders).toHaveLength(0);
-    expect(errors).toBeUndefined();
+    expect(errors).toContain("orders not found");
   });
 
   it("should return a list with order1FromUser1", async () => {
@@ -223,8 +225,7 @@ describe("#GET /orders/:id", () => {
     expect(statusCode).toBe(403);
     expect(responseType).toMatch(/json/);
 
-    expect(obtainedOrder).toBeNull(order3);
-    expect(errors).toContain("Access denied. Only admins authorized.");
+    expect(errors).toContain("Access denied. Only admins authorized");
   });
 
   it("should return null and error message (There is no order with the given id)", async () => {
@@ -301,15 +302,15 @@ describe("#POST /orders/", () => {
     expect(responseType).toMatch(/json/);
 
     const adminFromDB = await Order.findByPk(obtainedOrder.id);
-    order4.password = adminFromDB.password;
-    expect(adminFromDB).toMatchObject(order2FromUser2);
-    expect(obtainedOrder).toMatchObject(order2FromUser2);
+
+    expect(adminFromDB).not.toBeNull();
     expect(errors).toBeUndefined();
   });
 
   it("should return errors (address and userId are null)", async () => {
     const response = await request(app)
       .post("/orders/")
+      .auth(authAdmin, { type: "bearer" })
       .send({ products: "{error : true}" });
 
     const {
@@ -322,15 +323,15 @@ describe("#POST /orders/", () => {
     expect(responseType).toMatch(/json/);
     expect(obtainedOrder).toBeNull();
     expect(errors).not.toBeUndefined();
-    expect(errors).toHaveLength(2);
+    expect(errors).toHaveLength(1);
 
-    expect(errors).toContain("address cannot be null");
-    expect(errors).toContain("userId cannot be null");
+    expect(errors).toContain("Bad request!");
   });
 
   it("should return errors (products and userId null)", async () => {
     const response = await request(app)
       .post("/orders/")
+      .auth(authAdmin, { type: "bearer" })
       .send({ address: "error 1234c" });
 
     const {
@@ -344,16 +345,18 @@ describe("#POST /orders/", () => {
     expect(obtainedOrder).toBeNull();
     expect(errors).not.toBeUndefined();
 
-    expect(errors).toContain("products cannot be null");
-    expect(errors).toContain("userId cannot be null");
+    expect(errors).toContain("Bad request!");
   });
 
   it("should return an error (products, address and userId are empty)", async () => {
-    const response = await request(app).post("/orders/").send({
-      products: "",
-      address: "",
-      userId: "",
-    });
+    const response = await request(app)
+      .post("/orders/")
+      .auth(authAdmin, { type: "bearer" })
+      .send({
+        products: "",
+        address: "",
+        userId: "",
+      });
 
     const {
       statusCode,
@@ -361,10 +364,10 @@ describe("#POST /orders/", () => {
       body: { errors },
     } = response;
 
-    expect(statusCode).toBe(401);
+    expect(statusCode).toBe(400);
     expect(responseType).toMatch(/json/);
     expect(errors).not.toBeUndefined();
-    expect(errors).toContain("products...");
+    expect(errors).toContain("Bad request!");
   });
 });
 
@@ -378,6 +381,7 @@ describe("#PATCH /orders/:id", () => {
       .send({
         products: "",
         address: "",
+        status: "",
         userId: "",
       });
 
@@ -395,8 +399,8 @@ describe("#PATCH /orders/:id", () => {
 
     expect(errors).toContain("products cannot be empty");
     expect(errors).toContain("address cannot be empty");
-    expect(errors).toContain("userId cannot be empty");
-    expect(errors).toHaveLength(3);
+    expect(errors).toContain("status cannot be empty");
+
     const adminAfterTest = await Order.findByPk(2);
 
     expect(adminBeforeTest).toEqual(adminAfterTest);

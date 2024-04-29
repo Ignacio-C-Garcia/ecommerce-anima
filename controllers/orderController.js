@@ -1,14 +1,15 @@
 const { Order, Product } = require("../models");
+const errorFormatter = require("../utils/errorFormatter");
 
 const orderController = {
   index: async (req, res) => {
     try {
       const orders = await Order.findAll();
       if (!orders || orders.length === 0)
-        res.status(401).json({ errors: ["No orders found"] });
-      else res.status(200).json(orders);
+        res.status(404).json({ orders, errors: ["orders not found"] });
+      else res.status(200).json({ orders });
     } catch (err) {
-      return res.status(400).json({ errors: ["Bad request!"] });
+      return res.status(400).json({ orders: null, errors: ["Bad request!"] });
     }
   },
 
@@ -17,7 +18,7 @@ const orderController = {
       const { id } = req.params;
       const order = await Order.findByPk(id);
       !order
-        ? res.status(404).json({order: null, errors: ["Order not found"] })
+        ? res.status(404).json({ order: null, errors: ["Order not found"] })
         : res.status(200).json({ order });
     } catch (err) {
       return res.status(400).json({ errors: "Bad request!" });
@@ -27,12 +28,10 @@ const orderController = {
   store: async (req, res) => {
     try {
       const order = req.body;
-      if (!order.address)
-        return res.status(401).json({order: null, errors: ["Unauthorized"] });
-      if (!order.userId)
-        return res.status(401).json({ errors: "Unauthorized" });
+      order.products = JSON.parse(order.products);
+      if (!order.address) throw "error";
+      if (!order.userId) throw "error";
 
-      //recorremos los productos que vienen en la order vía req.body y cortamos la funcion si el stock es insuficiente, y agregamos los precios sacado de la DB.r
       for (const product of order.products) {
         const productsInDb = await Product.findByPk(product.id);
         if (productsInDb.stock < product.qty) {
@@ -53,35 +52,39 @@ const orderController = {
         await productsInDb.save();
       }
 
-      await Order.create(order);
-      return res.status(201).json({ message: "Register added successfully!" });
+      const orderdb = await Order.create(order);
+      return res
+        .status(201)
+        .json({ order: orderdb, message: "Register added successfully!" });
     } catch (err) {
-      return res.status(400).json({ errors: ["Bad request!"] });
+      return res.status(400).json({ order: null, errors: ["Bad request!"] });
     }
   },
 
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { products, status, addres } = req.body;
+      const { products, status, address } = req.body;
 
-      const order = await order.findByPk(id);
+      const order = await Order.findByPk(id);
 
       if (!order) {
-        return res.status(404).json({ order: null, errors: ["Order not found"] });
+        return res
+          .status(404)
+          .json({ order: null, errors: ["Order not found"] });
       }
 
-      if (status) order.status = status;
-      if (products) order.products = products;
-      if (addres) order.addres = addres;
+      order.status = status;
+      order.products = products;
+      order.address = address;
 
       await order.save();
 
       return res
-        .status(201)
+        .status(200)
         .json({ order, message: "order modified successfully!" });
     } catch (err) {
-      return res.status(404).json({ order: null, errors: ["Order not found"] });
+      return res.status(400).json({ order: null, errors: errorFormatter(err) });
     }
   },
 
