@@ -54,7 +54,7 @@ class Product extends Model {
           },
         },
         price: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
           validate: {
             notNull: {
