@@ -12,7 +12,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "latte-vanilla-skinny.png",
+      pic: "coffee/latte-vanilla-skinny.png",
       //     alt: "Latte",
       name: "Latte Vainilla",
       description:
