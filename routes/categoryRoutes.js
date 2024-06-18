@@ -9,7 +9,6 @@ router.get("/:id", categoryController.show);
 
 router.use(checkjwt, isAdmin);
 
-
 router.post("/", categoryController.store);
 router.patch("/:id", categoryController.update);
 router.delete("/:id", categoryController.destroy);
