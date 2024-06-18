@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 module.exports = async () => {
   const productList = [
     {
-      pic: "coffee/Capuchino.png",
+      pic: "coffee/cappuccino.png",
       //     alt: "Cappuccino",
       name: "Cappuccino",
       description: "Un cappuccino rico y espumoso con un toque de chocolate.",
@@ -12,7 +12,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/Skinny Vainilla Latte.png",
+      pic: "latte-vanilla.png",
       //     alt: "Latte",
       name: "Latte Vainilla",
       description:
@@ -23,7 +23,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/Americano.png",
+      pic: "coffee/americano.png",
       //    alt: "Americano",
       name: "Americano",
       description: "Un espresso fuerte y audaz, con agua caliente.",
@@ -33,7 +33,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/Mocha.png",
+      pic: "coffee/moccha.png",
       //   alt: "Mocha",
       name: "Mocha",
       description:
@@ -44,27 +44,27 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/Latte Macchiato.png",
+      pic: "coffee/latte-macchiato.png",
       //    alt: "Café Vainilla",
       name: "Latte Macchiato",
       description: "Capas claramente definidas de leche, café y espuma",
-      price: 4.29,
+      price: 7.29,
       stock: 19,
       featured: false,
       categoryId: 1,
     },
     {
-      pic: "coffee/Mocha Blanco.png",
+      pic: "coffee/moccha-white.png",
       //   alt: "Café de Filtro",
       name: "Mocha Blanco",
       description: "incorpora chocolate blanco en lugar del chocolate oscuro.",
-      price: 3.99,
+      price: 13.99,
       stock: 123,
       featured: false,
       categoryId: 1,
     },
     {
-      pic: "coffee/Skinny Vainilla Latte.png",
+      pic: "coffee/latte-vanilla-skinny.png",
       //   alt: "Cold Brew",
       name: "Skinny Latte",
       description: "Un café suave y refrescante",
@@ -74,7 +74,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/Flat White.png",
+      pic: "coffee/flat-white.png",
       //  alt: "Cold Brew con Nubes",
       name: "Flat White",
       description: "sabor equilibrado y su textura suave y sedosa.",
