@@ -3,9 +3,8 @@ const { Category } = require("../models");
 module.exports = async function categorySeeder() {
   const categoriesList = [
     { name: "Cafés" },
+    { name: "Pastelería" },
     { name: "Granos" },
-    { name: "Bebidas" },
-    { name: "Comidas" },
   ];
 
   await Category.bulkCreate(categoriesList);
