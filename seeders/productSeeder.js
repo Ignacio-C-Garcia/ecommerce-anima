@@ -45,16 +45,6 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/latte-macchiato.png",
-      //    alt: "Café Vainilla",
-      name: "Latte Macchiato",
-      description: "Capas claramente definidas de leche, café y espuma",
-      price: 7.29,
-      stock: 19,
-      featured: false,
-      categoryId: 1,
-    },
-    {
       pic: "coffee/mocha-white.png",
       //   alt: "Café de Filtro",
       name: "Mocha de Chocolate Blanco",
