@@ -282,7 +282,7 @@ module.exports = async () => {
       categoryId: 2,
     },
     {
-      pic: "category/beans.png",
+      pic: "categorias/beans.png",
       name: "Paquete de Granos de Café Arábica",
       description: "Paquete de 500g de granos de café Arábica de alta calidad.",
       price: 15.0,
@@ -291,7 +291,7 @@ module.exports = async () => {
       categoryId: 3,
     },
     {
-      pic: "category/beans.png",
+      pic: "categorias/beans.png",
       name: "Paquete de Granos de Café Robusta",
       description:
         "Paquete de 500g de granos de café Robusta con un sabor fuerte y rico.",
@@ -301,7 +301,7 @@ module.exports = async () => {
       categoryId: 3,
     },
     {
-      pic: "category/beans.png",
+      pic: "categorias/beans.png",
       name: "Paquete de Granos de Café Mezcla Especial",
       description:
         "Paquete de 500g de una mezcla especial de granos Arábica y Robusta.",
