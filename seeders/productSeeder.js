@@ -34,7 +34,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/moccha.png",
+      pic: "coffee/mocha.png",
       //   alt: "Mocha",
       name: "Mocha",
       description:
@@ -55,7 +55,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "coffee/moccha-white.png",
+      pic: "coffee/mocha-white.png",
       //   alt: "Café de Filtro",
       name: "Mocha de Chocolate Blanco",
       description:
@@ -107,7 +107,7 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "cofee/latte-matcha.png",
+      pic: "coffee/latte-matcha.png",
       name: "Latte Matcha",
       description:
         "La ceremonia del té japonesa enfatiza las virtudes de la humildad, la moderación y la sencillez, y su práctica se rige por un conjunto de acciones altamente ritualizadas. Pero esta bebida suave y cremosa a base de matcha se puede disfrutar como quieras.",
@@ -147,9 +147,9 @@ module.exports = async () => {
       categoryId: 1,
     },
     {
-      pic: "bakery/tarta-de-vanilla.png",
-      name: "Bizcocho de Vainilla",
-      description: "Bizcocho suave y esponjoso con sabor a vainilla.",
+      pic: "bakery/cake-vanilla.png",
+      name: "Tarta de Vainilla",
+      description: "Tarta suave y esponjosa con sabor a vainilla.",
       price: 3.5,
       stock: 20,
       featured: false,
@@ -175,7 +175,114 @@ module.exports = async () => {
       categoryId: 2,
     },
     {
-      pic: "none",
+      pic: "bakery/brekky-roll-beacon.png",
+      name: "Sandwich de Beacon",
+      description:
+        "¡Prueba nuestro sandwich de tocino, huevo y queso! Disfrútalo perfectamente tostado con tu bebida favorita.",
+      price: 2.99,
+      stock: 32,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/brekky-roll-vegan.png",
+      name: "Sandwich Vegano",
+      description:
+        "¡Pruebe nuestro delicioso sandwich a base de plantas elaborado con tocino de origen vegetal, huevo de tofu y salsa barbacoa!",
+      price: 3.19,
+      stock: 19,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/caramel-slice.png",
+      name: "Slice de Caramelo",
+      description:
+        "Masa de hojaldre dorada con capas de caramelo pegajoso y chocolate con leche.",
+      price: 0.99,
+      stock: 120,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/chip-cookie.png",
+      name: "Galleta con chispas de Chocolate",
+      description:
+        "Horneado a la perfección en una de las mejores panaderías de Montevideo con generosos trozos de chocolate con leche. ¡Tan suave, tan masticable, tan bocadillo!",
+      price: 0.49,
+      stock: 250,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/choc-muffin-1.png",
+      name: "Muffin de Chocolate",
+      description:
+        "Delicadamente rico y húmedo: la elección perfecta para los amantes del chocolate que buscan un refrigerio dulce. ¡Disfrútalo fresco o tostado!",
+      price: 1.39,
+      stock: 100,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/croissant-chocolate-shadow.png",
+      name: "Croissant con chispas de chocolate",
+      description: "",
+      price: 1.99,
+      stock: 130,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/croissant-chocolate.png",
+      name: "Croissant de chocolate",
+      description: "",
+      price: 1.99,
+      stock: 90,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/croissant-ham-cheese.png",
+      name: "Croissant de jamón y queso",
+      description: "",
+      price: 1.49,
+      stock: 120,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/sandwich-vegan-grilled.png",
+      name: "Sandwich vegano",
+      description:
+        "Un sándwich saludable y sustancioso elaborado con verduras a la parrilla, que incluyen pimiento, berenjena, batata y queso feta vegano desmenuzado.",
+      price: 2.09,
+      stock: 40,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/toastie-cheesetomato.png",
+      name: "Tostadas con jamón y queso",
+      description:
+        "Lonchas de jamón ahumado y sabroso queso derretido con mostaza dijonesa untada sobre masa madre artesanal ligeramente tostada.",
+      price: 0.99,
+      stock: 310,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "bakery/wrap-chickenavocado.png",
+      name: "Arrollado de pollo y palta",
+      description:
+        "Tierna pechuga de pollo y lechuga fresca y crujiente con aguacate cremoso, todo envuelto en una tortilla integral.",
+      price: 8.99,
+      stock: 20,
+      featured: false,
+      categoryId: 2,
+    },
+    {
+      pic: "category/beans.png",
       name: "Paquete de Granos de Café Arábica",
       description: "Paquete de 500g de granos de café Arábica de alta calidad.",
       price: 15.0,
@@ -184,7 +291,7 @@ module.exports = async () => {
       categoryId: 3,
     },
     {
-      pic: "none",
+      pic: "category/beans.png",
       name: "Paquete de Granos de Café Robusta",
       description:
         "Paquete de 500g de granos de café Robusta con un sabor fuerte y rico.",
@@ -194,7 +301,7 @@ module.exports = async () => {
       categoryId: 3,
     },
     {
-      pic: "none",
+      pic: "category/beans.png",
       name: "Paquete de Granos de Café Mezcla Especial",
       description:
         "Paquete de 500g de una mezcla especial de granos Arábica y Robusta.",
