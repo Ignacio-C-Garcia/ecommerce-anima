@@ -1,5 +1,5 @@
-const Product = require("../models/Product");
-module.exports = async () => {
+import { bulkCreate } from "../models/Product";
+export default async () => {
   const productList = [
     {
       pic: "coffee/cappuccino.png",
@@ -80,7 +80,7 @@ module.exports = async () => {
       pic: "coffee/caramel-macchiato.png",
       name: "Macchiato de Caramelo",
       description:
-        "Una combinacion de jarabe cremoso con sabor a vainilla, leche recién vaporizada con una cobertura de espuma aterciopelada, un toque intenso de nuestro Espresso Roast, un final de llovizna de caramelo mantecoso.",
+        "Jarabe cremoso de vainilla, leche vaporizada con espuma aterciopelada, un toque de Espresso Roast, y un final de caramelo mantecoso.",
       price: 4.99,
       stock: 45,
       featured: false,
@@ -90,7 +90,7 @@ module.exports = async () => {
       pic: "coffee/espresso.png",
       name: "Espresso",
       description:
-        "Descubre el sabor auténtico de nuestro café espresso: intenso, suave y con una rica crema dorada. Perfecto para disfrutar solo o como base para tus bebidas favoritas.",
+        "Descubre el auténtico sabor de nuestro espresso: intenso, suave, con rica crema dorada. Perfecto solo o como base para tus bebidas favoritas.",
       price: 1.99,
       stock: 75,
       featured: false,
@@ -100,7 +100,7 @@ module.exports = async () => {
       pic: "coffee/latte-matcha.png",
       name: "Latte Matcha",
       description:
-        "La ceremonia del té japonesa enfatiza las virtudes de la humildad, la moderación y la sencillez, y su práctica se rige por un conjunto de acciones altamente ritualizadas. Pero esta bebida suave y cremosa a base de matcha se puede disfrutar como quieras.",
+        "La ceremonia del té japonesa enfatiza la humildad, moderación y sencillez, con acciones ritualizadas. Sin embargo, esta bebida suave y cremosa de matcha se puede disfrutar como quieras.",
       price: 6.99,
       stock: 25,
       featured: false,
@@ -110,7 +110,7 @@ module.exports = async () => {
       pic: "coffee/mocha-frappe.png",
       name: "Frappe Mocha",
       description:
-        "Si aprovechar al máximo el clima soleado es una prioridad para usted en el verano, debería pensar en esta bebida deliciosa y decadente. Es dulce, cremoso y frío, tal como debería ser un buen capricho de verano. Y ofrece el rico y satisfactorio sabor del chocolate y el café.",
+        "Si disfrutar del clima soleado es su prioridad en verano, pruebe esta bebida dulce, cremosa y fría, con el rico sabor del chocolate y el café.",
       price: 5.49,
       stock: 34,
       featured: false,
@@ -130,7 +130,7 @@ module.exports = async () => {
       pic: "coffee/ultra-caramel.png",
       name: "Frappuccino Ultra Caramelo",
       description:
-        "El Mocha Frappuccino® está envuelto entre capas de crema batida infusionada con café frío. Sobre cada capa de crema batida montada hay una porción de rica salsa de caramelo oscuro. Estas capas garantizan que cada sorbo sea tan bueno como el anterior, hasta el final.",
+        "El Mocha Frappuccino® se envuelve en capas de crema batida infusionada con café frío y rica salsa de caramelo oscuro. Cada sorbo es tan bueno como el anterior, hasta el final.",
       price: 12.99,
       stock: 15,
       featured: false,
@@ -142,16 +142,6 @@ module.exports = async () => {
       description: "Tarta suave y esponjosa con sabor a vainilla.",
       price: 3.5,
       stock: 20,
-      featured: false,
-      categoryId: 2,
-    },
-    {
-      pic: "bakery/croissant-chocolate.png",
-      name: "Croissant relleno con chispas de chocolate y avellanas.",
-      description:
-        "Croissant de mantequilla pura, relleno de una deliciosa crema de cacao y avellanas, rociado con chispas de chocolate y avellanas crujientes.",
-      price: 2.0,
-      stock: 15,
       featured: false,
       categoryId: 2,
     },
@@ -224,18 +214,10 @@ module.exports = async () => {
       categoryId: 2,
     },
     {
-      pic: "bakery/croissant-chocolate.png",
-      name: "Croissant de chocolate",
-      description: "",
-      price: 1.99,
-      stock: 90,
-      featured: false,
-      categoryId: 2,
-    },
-    {
       pic: "bakery/croissant-ham-cheese.png",
       name: "Croissant de jamón y queso",
-      description: "",
+      description:
+        "Suculentas lonchas de jamón triple ahumado junto con queso cheddar añejo intercaladas en un croissant mantecoso.",
       price: 1.49,
       stock: 120,
       featured: false,
@@ -302,6 +284,6 @@ module.exports = async () => {
     },
   ];
 
-  await Product.bulkCreate(productList);
+  await bulkCreate(productList);
   console.log("Product seeder has been ran.");
 };
