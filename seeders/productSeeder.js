@@ -101,20 +101,51 @@ module.exports = async () => {
       name: "Espresso",
       description:
         "Descubre el sabor auténtico de nuestro café espresso: intenso, suave y con una rica crema dorada. Perfecto para disfrutar solo o como base para tus bebidas favoritas.",
+      price: 1.99,
+      stock: 75,
+      featured: false,
+      categoryId: 1,
+    },
+    {
+      pic: "cofee/latte-matcha.png",
+      name: "Latte Matcha",
+      description:
+        "La ceremonia del té japonesa enfatiza las virtudes de la humildad, la moderación y la sencillez, y su práctica se rige por un conjunto de acciones altamente ritualizadas. Pero esta bebida suave y cremosa a base de matcha se puede disfrutar como quieras.",
+      price: 6.99,
+      stock: 25,
+      featured: false,
+      categoryId: 1,
+    },
+    {
+      pic: "coffee/mocha-frappe.png",
+      name: "Frappe Mocha",
+      description:
+        "Si aprovechar al máximo el clima soleado es una prioridad para usted en el verano, debería pensar en esta bebida deliciosa y decadente. Es dulce, cremoso y frío, tal como debería ser un buen capricho de verano. Y ofrece el rico y satisfactorio sabor del chocolate y el café.",
+      price: 5.49,
+      stock: 34,
+      featured: false,
+      categoryId: 1,
+    },
+    {
+      pic: "coffee/tea-english.png",
+      name: "Té negro inglés",
+      description:
+        "Los atrevidos tés maltosos de la India se combinan con tés brillantes y sabrosos de Sri Lanka y con el suave y ahumado Keemun chino en una mezcla de hojas enteras finamente equilibrada.",
       price: 0,
       stock: 0,
       featured: false,
       categoryId: 1,
     },
-    // {
-    //   pic: "cofee/latte-matcha.png",
-    //   name: "Latte Matcha",
-    //   description: "",
-    //   price: 0,
-    //   stock: 0,
-    //   featured: false,
-    //   categoryId: 1,
-    // },
+    {
+      pic: "coffee/ultra-caramel.png",
+      name: "Frappuccino Ultra Caramelo",
+      description:
+        "El Mocha Frappuccino® está envuelto entre capas de crema batida infusionada con café frío. Sobre cada capa de crema batida montada hay una porción de rica salsa de caramelo oscuro. Estas capas garantizan que cada sorbo sea tan bueno como el anterior, hasta el final.",
+      price: 12.99,
+      stock: 15,
+      featured: false,
+      categoryId: 1,
+    },
     {
       pic: "bakery/tarta-de-vanilla.png",
       name: "Bizcocho de Vainilla",
