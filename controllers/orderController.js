@@ -1,10 +1,17 @@
-const { Order, Product } = require("../models");
+const { Order, Product, User } = require("../models");
 const errorFormatter = require("../utils/errorFormatter");
 
 const orderController = {
   index: async (req, res) => {
     try {
-      const orders = await Order.findAll();
+      const orders = await Order.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ["name"],
+          },
+        ],
+      });
       if (!orders || orders.length === 0)
         res.status(404).json({ orders, errors: ["orders not found"] });
       else res.status(200).json({ orders });
