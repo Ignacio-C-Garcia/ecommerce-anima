@@ -1,5 +1,5 @@
-import { bulkCreate } from "../models/Product";
-export default async () => {
+const { Product } = require("../models");
+module.exports = async () => {
   const productList = [
     {
       pic: "coffee/cappuccino.png",
@@ -284,6 +284,6 @@ export default async () => {
     },
   ];
 
-  await bulkCreate(productList);
+  await Product.bulkCreate(productList);
   console.log("Product seeder has been ran.");
 };
