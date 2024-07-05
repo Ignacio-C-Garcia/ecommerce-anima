@@ -15,14 +15,19 @@ module.exports = async function orderSeeders() {
     for (let j = 0; j < 3; j++) {
       const randomIndex = Math.floor(Math.random() * allProducts.length);
       const selectedProduct = allProducts[randomIndex];
-      products.push({ id: selectedProduct.id, qty: 10, price: 100 });
+      products.push({
+        id: selectedProduct.id,
+        name: selectedProduct.name,
+        qty: 10,
+        price: 100,
+      });
     }
 
     orders.push({
       address,
       status,
       products,
-      userId: 1,
+      userId: i + 1,
     });
   }
 

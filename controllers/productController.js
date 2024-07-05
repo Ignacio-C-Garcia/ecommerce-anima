@@ -1,9 +1,16 @@
-const { Product } = require("../models");
+const { Product, Category } = require("../models");
 const errorFormatter = require("../utils/errorFormatter");
 
 const productController = {
   index: async (req, res) => {
-    const products = await Product.findAll();
+    const products = await Product.findAll({
+      include: [
+        {
+          model: Category,
+          attributes: ["name"],
+        },
+      ],
+    });
     return res.json({ products });
   },
   show: async (req, res) => {
