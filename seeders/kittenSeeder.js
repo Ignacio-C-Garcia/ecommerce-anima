@@ -1,3 +1,4 @@
+const { logger } = require("sequelize/lib/utils/logger");
 const { Kitten } = require("../models");
 module.exports = async () => {
   const kittensList = [
@@ -23,11 +24,32 @@ module.exports = async () => {
       personality: "Tímida pero cariñosa",
     },
     {
-      pic: "leo.webp",
-      name: "Leo",
-      birthdate: "15 de diciembre",
-      age: 8,
-      personality: "Independiente y tranquilo",
+      pic: "sushi.jpg",
+      name: "Sushi",
+      birthdate: "8 de abril",
+      age: 1,
+      personality: "Jugetón",
+    },
+    {
+      pic: "bombon.jpg",
+      name: "Bombón",
+      birthdate: "6 de diciembre",
+      age: 1,
+      personality: "cariñoso y tranquilx",
+    },
+    {
+      pic: "manito.jpg",
+      name: "Manito",
+      birthdate: "6 de diciembre",
+      age: 1,
+      personality: "Dormilón",
+    },
+    {
+      pic: "nala.jpg",
+      name: "Nala",
+      birthdate: "15 de enero",
+      age: 1,
+      personality: "Juguetona y mimosa"
     },
   ];
 

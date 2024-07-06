@@ -1,19 +1,19 @@
 const { Product } = require("../models");
+
 module.exports = async () => {
   const productList = [
     {
       pic: "coffee/cappuccino.png",
-      //     alt: "Cappuccino",
       name: "Cappuccino",
       description: "Un cappuccino rico y espumoso con un toque de chocolate.",
       price: 4.99,
       stock: 99,
       featured: false,
       categoryId: 1,
+      calories: 120,
     },
     {
       pic: "coffee/latte.png",
-      //     alt: "Latte",
       name: "Latte",
       description:
         "Un latte suave y cremoso con la mezcla perfecta de espresso y leche vaporizada, con un toque de vainilla.",
@@ -21,10 +21,10 @@ module.exports = async () => {
       stock: 10,
       featured: false,
       categoryId: 1,
+      calories: 190,
     },
     {
       pic: "coffee/americano.png",
-      //  alt: "Americano",
       name: "Americano",
       description:
         "Los shots de espresso cubiertos con agua caliente crean una ligera capa de crema que culmina en esta taza maravillosamente rica con profundidad y matices.",
@@ -32,10 +32,10 @@ module.exports = async () => {
       stock: 34,
       featured: false,
       categoryId: 1,
+      calories: 15,
     },
     {
       pic: "coffee/mocha.png",
-      //   alt: "Mocha",
       name: "Mocha",
       description:
         "Un delicioso mocha con una mezcla de espresso, chocolate y leche vaporizada.",
@@ -43,10 +43,10 @@ module.exports = async () => {
       stock: 62,
       featured: false,
       categoryId: 1,
+      calories: 360,
     },
     {
       pic: "coffee/mocha-white.png",
-      //   alt: "Café de Filtro",
       name: "Mocha de Chocolate Blanco",
       description:
         "incorpora chocolate blanco en lugar del chocolate oscuro, manteniendo la misma esencia del mocha tradicional.",
@@ -54,10 +54,10 @@ module.exports = async () => {
       stock: 123,
       featured: false,
       categoryId: 1,
+      calories: 430,
     },
     {
       pic: "coffee/caramel-crunch-frappuccino.png",
-      //   alt: "Cold Brew",
       name: "Frappuccino de Caramelo",
       description:
         "Mezcla de salsa de caramelo oscuro, frappuccino asado, leche y hielo. ¡Cubierto con crema batida, llovizna de caramelo y azúcar caramelo!",
@@ -65,16 +65,17 @@ module.exports = async () => {
       stock: 28,
       featured: false,
       categoryId: 1,
+      calories: 450,
     },
     {
       pic: "coffee/flat-white.png",
-      //  alt: "Cold Brew con Nubes",
       name: "Flat White",
       description: "Sabor equilibrado y su textura suave y sedosa.",
       price: 5.29,
       stock: 90,
       featured: false,
       categoryId: 1,
+      calories: 170,
     },
     {
       pic: "coffee/caramel-macchiato.png",
@@ -85,6 +86,7 @@ module.exports = async () => {
       stock: 45,
       featured: false,
       categoryId: 1,
+      calories: 250,
     },
     {
       pic: "coffee/espresso.png",
@@ -95,6 +97,7 @@ module.exports = async () => {
       stock: 75,
       featured: false,
       categoryId: 1,
+      calories: 5,
     },
     {
       pic: "coffee/latte-matcha.png",
@@ -105,6 +108,7 @@ module.exports = async () => {
       stock: 25,
       featured: false,
       categoryId: 1,
+      calories: 200,
     },
     {
       pic: "coffee/mocha-frappe.png",
@@ -115,6 +119,7 @@ module.exports = async () => {
       stock: 34,
       featured: false,
       categoryId: 1,
+      calories: 420,
     },
     {
       pic: "coffee/tea-english.png",
@@ -125,6 +130,7 @@ module.exports = async () => {
       stock: 0,
       featured: false,
       categoryId: 1,
+      calories: 0,
     },
     {
       pic: "coffee/ultra-caramel.png",
@@ -135,6 +141,7 @@ module.exports = async () => {
       stock: 15,
       featured: false,
       categoryId: 1,
+      calories: 500,
     },
     {
       pic: "bakery/cake-vanilla.png",
@@ -144,6 +151,7 @@ module.exports = async () => {
       stock: 20,
       featured: false,
       categoryId: 2,
+      calories: 250,
     },
     {
       pic: "bakery/brownie-chocolate.png",
@@ -153,6 +161,7 @@ module.exports = async () => {
       stock: 12,
       featured: false,
       categoryId: 2,
+      calories: 280,
     },
     {
       pic: "bakery/brekky-roll-beacon.png",
@@ -163,6 +172,7 @@ module.exports = async () => {
       stock: 32,
       featured: false,
       categoryId: 2,
+      calories: 300,
     },
     {
       pic: "bakery/brekky-roll-vegan.png",
@@ -173,6 +183,7 @@ module.exports = async () => {
       stock: 19,
       featured: false,
       categoryId: 2,
+      calories: 250,
     },
     {
       pic: "bakery/caramel-slice.png",
@@ -183,6 +194,7 @@ module.exports = async () => {
       stock: 120,
       featured: false,
       categoryId: 2,
+      calories: 180,
     },
     {
       pic: "bakery/chip-cookie.png",
@@ -193,6 +205,7 @@ module.exports = async () => {
       stock: 250,
       featured: false,
       categoryId: 2,
+      calories: 200,
     },
     {
       pic: "bakery/choc-muffin-1.png",
@@ -203,6 +216,7 @@ module.exports = async () => {
       stock: 100,
       featured: false,
       categoryId: 2,
+      calories: 300,
     },
     {
       pic: "bakery/croissant-chocolate-shadow.png",
@@ -212,6 +226,7 @@ module.exports = async () => {
       stock: 130,
       featured: false,
       categoryId: 2,
+      calories: 280,
     },
     {
       pic: "bakery/croissant-ham-cheese.png",
@@ -222,6 +237,7 @@ module.exports = async () => {
       stock: 120,
       featured: false,
       categoryId: 2,
+      calories: 320,
     },
     {
       pic: "bakery/sandwich-vegan-grilled.png",
@@ -232,6 +248,7 @@ module.exports = async () => {
       stock: 40,
       featured: false,
       categoryId: 2,
+      calories: 270,
     },
     {
       pic: "bakery/toastie-cheesetomato.png",
@@ -242,6 +259,7 @@ module.exports = async () => {
       stock: 310,
       featured: false,
       categoryId: 2,
+      calories: 310,
     },
     {
       pic: "bakery/wrap-chickenavocado.png",
@@ -252,18 +270,20 @@ module.exports = async () => {
       stock: 20,
       featured: false,
       categoryId: 2,
+      calories: 420,
     },
     {
-      pic: "categorias/beans.png",
+      pic: "categories/beans-white.png",
       name: "Paquete de Granos de Café Arábica",
       description: "Paquete de 500g de granos de café Arábica de alta calidad.",
       price: 15.0,
       stock: 30,
       featured: false,
       categoryId: 3,
+      calories: 0,
     },
     {
-      pic: "categorias/beans.png",
+      pic: "categories/beans-black.png",
       name: "Paquete de Granos de Café Robusta",
       description:
         "Paquete de 500g de granos de café Robusta con un sabor fuerte y rico.",
@@ -271,9 +291,10 @@ module.exports = async () => {
       stock: 25,
       featured: false,
       categoryId: 3,
+      calories: 0,
     },
     {
-      pic: "categorias/beans.png",
+      pic: "categories/beans.png",
       name: "Paquete de Granos de Café Mezcla Especial",
       description:
         "Paquete de 500g de una mezcla especial de granos Arábica y Robusta.",
@@ -281,6 +302,7 @@ module.exports = async () => {
       stock: 20,
       featured: false,
       categoryId: 3,
+      calories: 0,
     },
   ];
 

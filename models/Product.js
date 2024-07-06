@@ -67,6 +67,20 @@ class Product extends Model {
             },
           },
         },
+        calories: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          validate: {
+            notNull: {
+              msg: "calories cannot be null",
+            },
+            isNumeric: { msg: "calories must be a positive number" },
+            min: {
+              args: [0],
+              msg: "calories must be a positive number",
+            },
+          },
+        },
         featured: {
           type: DataTypes.BOOLEAN,
           allowNull: false,
