@@ -47,23 +47,23 @@ module.exports = async () => {
     },
     {
       pic: "coffee/mocha-white.png",
-      name: "Mocha de Chocolate Blanco",
+      name: "Mocha White",
       description:
         "incorpora chocolate blanco en lugar del chocolate oscuro, manteniendo la misma esencia del mocha tradicional.",
       price: 13.99,
       stock: 123,
-      featured: false,
+      featured: true,
       categoryId: 1,
       calories: 430,
     },
     {
       pic: "coffee/caramel-crunch-frappuccino.png",
-      name: "Frappuccino de Caramelo",
+      name: "Caramel Crunch Frappuccino",
       description:
         "Mezcla de salsa de caramelo oscuro, frappuccino asado, leche y hielo. ¡Cubierto con crema batida, llovizna de caramelo y azúcar caramelo!",
       price: 4.79,
       stock: 28,
-      featured: false,
+      featured: true,
       categoryId: 1,
       calories: 450,
     },
@@ -79,7 +79,7 @@ module.exports = async () => {
     },
     {
       pic: "coffee/caramel-macchiato.png",
-      name: "Macchiato de Caramelo",
+      name: "Caramel Macchiato",
       description:
         "Jarabe cremoso de vainilla, leche vaporizada con espuma aterciopelada, un toque de Espresso Roast, y un final de caramelo mantecoso.",
       price: 4.99,
@@ -106,7 +106,7 @@ module.exports = async () => {
         "La ceremonia del té japonesa enfatiza la humildad, moderación y sencillez, con acciones ritualizadas. Sin embargo, esta bebida suave y cremosa de matcha se puede disfrutar como quieras.",
       price: 6.99,
       stock: 25,
-      featured: false,
+      featured: true,
       categoryId: 1,
       calories: 200,
     },
@@ -117,7 +117,7 @@ module.exports = async () => {
         "Si disfrutar del clima soleado es su prioridad en verano, pruebe esta bebida dulce, cremosa y fría, con el rico sabor del chocolate y el café.",
       price: 5.49,
       stock: 34,
-      featured: false,
+      featured: true,
       categoryId: 1,
       calories: 420,
     },
@@ -134,9 +134,9 @@ module.exports = async () => {
     },
     {
       pic: "coffee/ultra-caramel.png",
-      name: "Frappuccino Ultra Caramelo",
+      name: "Caramel frappuccino",
       description:
-        "El Mocha Frappuccino® se envuelve en capas de crema batida infusionada con café frío y rica salsa de caramelo oscuro. Cada sorbo es tan bueno como el anterior, hasta el final.",
+        "El Mocha Frappuccino se envuelve en capas de crema batida infusionada con café frío y rica salsa de caramelo oscuro. Cada sorbo es tan bueno como el anterior, hasta el final.",
       price: 12.99,
       stock: 15,
       featured: false,
@@ -165,7 +165,7 @@ module.exports = async () => {
     },
     {
       pic: "bakery/brekky-roll-beacon.png",
-      name: "Sandwich de Beacon",
+      name: "Sandwich de Bacon",
       description:
         "¡Prueba nuestro sandwich de tocino, huevo y queso! Disfrútalo perfectamente tostado con tu bebida favorita.",
       price: 2.99,
@@ -181,7 +181,7 @@ module.exports = async () => {
         "¡Pruebe nuestro delicioso sandwich a base de plantas elaborado con tocino de origen vegetal, huevo de tofu y salsa barbacoa!",
       price: 3.19,
       stock: 19,
-      featured: false,
+      featured: true,
       categoryId: 2,
       calories: 250,
     },
@@ -235,7 +235,7 @@ module.exports = async () => {
         "Suculentas lonchas de jamón triple ahumado junto con queso cheddar añejo intercaladas en un croissant mantecoso.",
       price: 1.49,
       stock: 120,
-      featured: false,
+      featured: true,
       categoryId: 2,
       calories: 320,
     },
@@ -274,7 +274,7 @@ module.exports = async () => {
     },
     {
       pic: "categories/beans-white.png",
-      name: "Paquete de Granos de Café Arábica",
+      name: "Café Arábica",
       description: "Paquete de 500g de granos de café Arábica de alta calidad.",
       price: 15.0,
       stock: 30,
@@ -284,7 +284,7 @@ module.exports = async () => {
     },
     {
       pic: "categories/beans-black.png",
-      name: "Paquete de Granos de Café Robusta",
+      name: "Café Robusta",
       description:
         "Paquete de 500g de granos de café Robusta con un sabor fuerte y rico.",
       price: 12.0,
@@ -295,7 +295,7 @@ module.exports = async () => {
     },
     {
       pic: "categories/beans.png",
-      name: "Paquete de Granos de Café Mezcla Especial",
+      name: "Blend de la casa",
       description:
         "Paquete de 500g de una mezcla especial de granos Arábica y Robusta.",
       price: 18.0,

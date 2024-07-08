@@ -51,6 +51,13 @@ module.exports = async () => {
       age: 1,
       personality: "Juguetona y mimosa"
     },
+    {
+      pic: "Amy.jpg",
+      name: "Amy",
+      birthdate: "Ni idea cuando cumple",
+      age: 6,
+      personality: "Muerde si no le das de comer"
+    },
   ];
 
   await Kitten.bulkCreate(kittensList);
