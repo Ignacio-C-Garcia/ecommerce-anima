@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 async function adminSeeder() {
   const admins = [];
   const root = {
-    id: 1,
     surname: "User",
     name: "Admin",
     email: "admin@project.com",
