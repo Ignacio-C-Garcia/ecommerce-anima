@@ -6,7 +6,7 @@ const checkjwt = require("../middlewares/checkjwt");
 
 router.use(checkjwt);
 router.post("/", orderController.store);
-
+router.get("/myOrders", orderController.showMyOrders);
 router.use(isAdmin);
 router.get("/", orderController.index);
 router.get("/:id", orderController.show);

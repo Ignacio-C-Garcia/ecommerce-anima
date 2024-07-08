@@ -7,7 +7,7 @@ module.exports = async function orderSeeders() {
 
   const allProducts = await Product.findAll();
 
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 29; i++) {
     const address = faker.location.street();
     const status = "pending";
     const products = [];
@@ -18,8 +18,8 @@ module.exports = async function orderSeeders() {
       products.push({
         id: selectedProduct.id,
         name: selectedProduct.name,
-        qty: 10,
-        price: 100,
+        qty: Math.floor(Math.random() * 10) + 1,
+        price: selectedProduct.price,
       });
     }
 
@@ -27,7 +27,7 @@ module.exports = async function orderSeeders() {
       address,
       status,
       products,
-      userId: i + 1,
+      userId: Math.floor(Math.random() * 6) + 1,
     });
   }
 

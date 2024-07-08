@@ -33,11 +33,11 @@ const orderController = {
   },
 
   store: async (req, res) => {
+    const customerId = req.auth.sub;
     try {
       const order = req.body;
-      order.products = JSON.parse(order.products);
-      if (!order.address) throw "error";
-      if (!order.userId) throw "error";
+      //    order.products = JSON.parse(order.products);
+      if (!order.address) throw new Error("error");
 
       for (const product of order.products) {
         const productsInDb = await Product.findByPk(product.id);
@@ -51,6 +51,7 @@ const orderController = {
         product.price = productsInDb.price;
       }
       order.status = "pending";
+      order.userId = customerId;
       for (const product of order.products) {
         const productsInDb = await Product.findByPk(product.id);
 
@@ -64,7 +65,7 @@ const orderController = {
         .status(201)
         .json({ order: orderdb, message: "Register added successfully!" });
     } catch (err) {
-      return res.status(400).json({ order: null, errors: ["Bad request!"] });
+      return res.status(400).json({ order: null, errors: err });
     }
   },
 
@@ -107,6 +108,22 @@ const orderController = {
       return res
         .status(404)
         .json({ order: null, errors: ["The order doesn't exist"] });
+    }
+  },
+  showMyOrders: async (req, res) => {
+    const { sub: userId } = req.auth;
+
+    try {
+      const orders = await Order.findAll({
+        where: {
+          userId,
+        },
+      });
+      if (!orders || orders.length === 0)
+        res.status(404).json({ orders, errors: ["orders not found"] });
+      else res.status(200).json({ orders });
+    } catch (err) {
+      return res.status(400).json({ orders: null, errors: ["Bad request!"] });
     }
   },
 };
