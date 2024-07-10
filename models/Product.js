@@ -54,16 +54,11 @@ class Product extends Model {
           },
         },
         price: {
-          type: DataTypes.DECIMAL(10, 2),
+          type: DataTypes.JSON,
           allowNull: false,
           validate: {
             notNull: {
               msg: "price cannot be null",
-            },
-            isNumeric: { msg: "price must be a positive number" },
-            min: {
-              args: [0],
-              msg: "price must be a positive number",
             },
           },
         },
