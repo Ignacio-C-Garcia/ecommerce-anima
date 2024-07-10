@@ -9,7 +9,7 @@ module.exports = async function orderSeeders() {
 
   for (let i = 0; i < 29; i++) {
     const address = faker.location.street();
-    const status = "pending";
+    const status = ["pendiente", "entregado", "enviado", "cancelado"];
     const products = [];
 
     for (let j = 0; j < 3; j++) {
@@ -25,7 +25,7 @@ module.exports = async function orderSeeders() {
 
     orders.push({
       address,
-      status,
+      status: status[Math.floor(Math.random() * status.length)],
       products,
       userId: Math.floor(Math.random() * 6) + 1,
     });
