@@ -7,7 +7,7 @@ module.exports = async () => {
       name: "Venus",
       birthdate: "8 de agosto",
       age: 2,
-      personality: "Curiosa y juguetona",
+      personality: "Curiosa y cariñosa",
     },
     {
       pic: "lisa.jpg",
@@ -26,21 +26,21 @@ module.exports = async () => {
     {
       pic: "sushi.jpg",
       name: "Sushi",
-      birthdate: "8 de abril",
+      birthdate: "08 de abril",
       age: 1,
       personality: "Jugetón",
     },
     {
       pic: "bombon.jpg",
       name: "Bombón",
-      birthdate: "6 de diciembre",
+      birthdate: "06 de diciembre",
       age: 1,
       personality: "cariñoso y tranquilx",
     },
     {
       pic: "manito.jpg",
       name: "Manito",
-      birthdate: "6 de diciembre",
+      birthdate: "06 de diciembre",
       age: 1,
       personality: "Dormilón",
     },
@@ -48,15 +48,15 @@ module.exports = async () => {
       pic: "nala.jpg",
       name: "Nala",
       birthdate: "15 de enero",
-      age: 1,
-      personality: "Juguetona y mimosa"
+      age: "6 meses",
+      personality: "Juguetona y mimosa",
     },
     {
       pic: "Amy.jpg",
       name: "Amy",
-      birthdate: "Ni idea cuando cumple",
+      birthdate: "31 de diciembre",
       age: 6,
-      personality: "Muerde si no le das de comer"
+      personality: "Muerde si no le das de comer",
     },
   ];
 
