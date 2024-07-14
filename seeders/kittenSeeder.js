@@ -48,7 +48,7 @@ module.exports = async () => {
       pic: "nala.jpg",
       name: "Nala",
       birthdate: "15 de enero",
-      age: "2",
+      age: 2,
       personality: "Juguetona y mimosa",
     },
     {
