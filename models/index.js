@@ -29,6 +29,7 @@ const sequelize = new Sequelize(
       timestamps: false,
     },
     logging: false,
+    sequelizeOptions,
   }
 );
 
