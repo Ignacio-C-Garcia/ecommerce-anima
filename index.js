@@ -11,6 +11,6 @@ app.use(express.json());
 app.use(routes);
 app.use(jwtErrorHandler);
 app.listen(process.env.APP_PORT, () =>
-  console.log(`Servidor corriendo en http://${process.env.APP_DOMAIN}.\n`)
+  console.log(`Servidor corriendo en http://${process.env.APP_PORT}.\n`)
 );
 module.exports = app;
