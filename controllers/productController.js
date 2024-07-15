@@ -68,7 +68,7 @@ const productController = {
     const { id } = req.params;
     try {
       const product = await Product.findByPk(id);
-      product.destroy();
+      await product.destroy();
       return res.json({ product });
     } catch (error) {
       res.status(404).json({ product: null, errors: errorFormatter(error) });

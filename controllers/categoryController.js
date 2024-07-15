@@ -60,17 +60,17 @@ const categoryController = {
     try {
       const category = await Category.findByPk(id);
       if (!category) {
-       return res
-          .status(404)
-          .json({
-            category: null,
-            errors: errorFormatter({ message: "Category not available" }),
-          });
+        return res.status(404).json({
+          category: null,
+          errors: errorFormatter({ message: "Category not available" }),
+        });
       }
-      category.destroy();
+      await category.destroy();
       return res.json({ category, message: "Category deleted" });
     } catch (error) {
-     return res.status(404).json({ category: null, errors: errorFormatter(error) });
+      return res
+        .status(404)
+        .json({ category: null, errors: errorFormatter(error) });
     }
   },
 };
