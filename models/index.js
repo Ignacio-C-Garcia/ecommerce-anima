@@ -40,7 +40,12 @@ User.initModel(sequelize);
 Category.initModel(sequelize);
 Kitten.initModel(sequelize);
 
-Category.hasMany(Product);
+Category.hasMany(Product, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: "RESTRICT",
+});
 Product.belongsTo(Category);
 
 User.hasMany(Order);
