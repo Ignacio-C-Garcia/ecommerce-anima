@@ -17,7 +17,7 @@ module.exports = async function orderSeeders() {
       const randomIndex = Math.floor(Math.random() * allProducts.length);
       const selectedProduct = allProducts[randomIndex];
       const selectedVolume =
-        selectedProduct.categoryId === 1
+        selectedProduct.categoryId == 1
           ? volume[Math.floor(Math.random() * volume.length)]
           : "base";
       products.push({
